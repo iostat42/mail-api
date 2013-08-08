@@ -1,8 +1,8 @@
 {
-  "name": "webmail",
+  "name": "webmail-backend",
   "version": "0.1.0",
   "author": "Jakob Gillich",
-  "description": "Nodejs Webmail",
+  "description": "RESTful webmail backend",
   "dependencies": {
     "inbox": "latest",
     "nodemailer": "latest",
