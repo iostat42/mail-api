@@ -23,20 +23,18 @@
     SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ###
 
-restify = require("restify")
-nodemailer = require("nodemailer")
-inbox = require("inbox")
-underscore = require("underscore")
+restify = require('restify')
+nodemailer = require('nodemailer')
+underscore = require('underscore')
 
-auth = require("./auth.js")
+server = module.exports = restify.createServer()
 
-
-server = restify.createServer()
 server.use(restify.fullResponse())
 server.use(restify.gzipResponse())
 server.use(restify.bodyParser())
 
-server.post('/auth', auth.routes['/auth'])
+require('./auth.js')
+require('./imap.js')
 
 server.listen 8080, () ->
-    console.log('%s listening at %s', server.name, server.url);
+    console.log('%s listening at %s', server.name, server.url)
