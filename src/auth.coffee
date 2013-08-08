@@ -29,6 +29,7 @@
 crypto = require('crypto')
 later = require('later')
 
+server = module.parent.exports
 sha256 = crypto.createHash('sha256')
 
 # Stores all user data (including passwords as plain text)
@@ -39,25 +40,34 @@ data = {}
 # Empty all data every 60 min
 # Clients are supposed to reconnect automatically
 # @todo: Implement a timeout
+###
 later.setTimeout () ->
     data = {}
 , later.parse.text('every 60 min')
+###
+
+
+server.post '/auth', (req, res, next) ->
+    crypto.randomBytes 128, (ex, buf) ->
+        token = buf.toString('base64')
+        
+        if not req.params.imap?
+            return res.send 400,
+                "error": "Authentication information missing (imap)"
+        
+        data[token] =
+            imap:
+                port: req.params.imap.port
+                host: req.params.imap.host
+                user: req.params.imap.user
+                password: req.params.imap.password
+            #created: new Date()).getTime()
+            
+        return res.send 200,
+            token: token
+
 
 module.exports =
-    routes:
-        "/auth": (req, res, next) ->
-            crypto.randomBytes 128, (ex, buf) ->
-                token = buf.toString('base64')
-                
-                data[token] =
-                    port: req.params.port
-                    host: req.params.host
-                    user: req.params.user
-                    password: req.params.password
-                    #created: new Date()).getTime()
-                    
-                res.end token
-
     get: (token) ->
         if data[token]?
             return data[token]
