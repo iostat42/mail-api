@@ -1,0 +1,16 @@
+{
+    "name": "webmail",
+    "version": "0.1.0",
+    "author": "Jakob Gillich",
+    "description": "Nodejs Webmail",
+    "dependencies": {
+        "inbox"     : "latest",
+        "nodemailer": "latest",
+        "underscore": "latest",
+        "restify"   : "latest",
+        "later"     : "latest"
+    },
+    "scripts": {
+        "start": "coffee -w -c -o build/ src/ & sleep 1 && nodemon build/app.js"
+    }
+}
