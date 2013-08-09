@@ -30,7 +30,6 @@ crypto = require('crypto')
 later = require('later')
 
 server = module.parent.exports
-sha256 = crypto.createHash('sha256')
 
 # Stores all user data (including passwords as plain text)
 # I have no idea if this is a good idea, but sending
@@ -48,9 +47,8 @@ later.setTimeout () ->
 
 
 server.post '/auth', (req, res, next) ->
-    crypto.randomBytes 128, (ex, buf) ->
-        token = buf.toString('base64')
-        
+    crypto.randomBytes 16, (ex, buf) ->
+        token = buf.toString('hex')
         if not req.params.imap?
             return res.send 400,
                 "error": "Authentication information missing (imap)"
@@ -67,8 +65,10 @@ server.post '/auth', (req, res, next) ->
             token: token
 
 
-module.exports =
-    get: (token) ->
-        if data[token]?
-            return data[token]
-        return null
+module.exports =    
+    requireAuth: (token, callback, errorCallback) ->
+        if not token?
+            return errorCallback(401, "Token required")
+        if not data[token]?
+            return errorCallback(401, "Token invalid")
+        callback(data[token])
