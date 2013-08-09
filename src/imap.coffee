@@ -27,6 +27,39 @@ inbox = require("inbox")
 
 auth = require("./auth.js")
 
-module.exports = {
+server = module.parent.exports
 
-}
+clients = {}
+
+
+requireConnect = (token, connectedCallback, errorCallback) ->
+    auth.requireAuth token, (authInfo) ->
+        if clients[token]?
+            return connectedCallback(clients[token])
+        connect authInfo, (client) ->
+            clients[token] = client
+            return connectedCallback(clients[token])
+        , errorCallback
+    , errorCallback
+    
+connect = (authInfo, connectedCallback, errorCallback) ->
+    options =
+        "secureConnection": true
+        "auth":
+            "user": authInfo.imap.user
+            "pass": authInfo.imap.password
+    client = inbox.createConnection(authInfo.imap.port, authInfo.imap.host, options)
+    client.connect()
+    client.on "connect", () ->
+        connectedCallback(client)
+    # @todo: implement errorCallback
+        
+    
+server.get "/mailbox", (req, res, next) ->
+    requireConnect req.authorization.basic.password, () ->
+        clients[req.authorization.basic.password].listMailboxes (error, mailboxes) ->
+            if error?
+                console.log(error)
+            res.send(200, mailboxes)
+    , (status, error) ->
+        res.send(status, {"error": error})
