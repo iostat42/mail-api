@@ -1,0 +1,14 @@
+{
+    "tests": {
+        "imap": {
+            "user": "",
+            "password": "",
+            "host": "",
+            "port": "993"
+            
+        }
+            
+    }
+    
+    
+}
