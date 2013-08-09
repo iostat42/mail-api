@@ -1,5 +1,6 @@
 {
     "tests": {
+        "url": "http://localhost:8080"
         "imap": {
             "user": "",
             "password": "",

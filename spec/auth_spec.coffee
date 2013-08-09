@@ -23,17 +23,23 @@
     SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ###
 
-frisby = require('frisby')
+#global: token
 
-URL = 'http://localhost:8080'
+
+frisby = require('frisby')
+config = require('../config.json').tests
 
 frisby.create('Request token')
-    .post URL + '/auth',
+    .post config.url + '/auth',
         imap:
-            port: ""
-            host: ""
-            user: ""
-            password: ""
+            port: config.imap.port
+            host: config.imap.host
+            user: config.imap.user
+            password: config.imap.password
     .expectStatus(200)
     .expectHeaderContains('content-type', 'application/json')
+    .expectJSON
+        token: (val) ->
+            global.token = val
+            return true if val? 
     .toss()
