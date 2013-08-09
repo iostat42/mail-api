@@ -32,6 +32,7 @@ server = module.exports = restify.createServer()
 server.use(restify.fullResponse())
 server.use(restify.gzipResponse())
 server.use(restify.bodyParser())
+server.use(restify.authorizationParser())
 
 require('./auth.js')
 require('./imap.js')
