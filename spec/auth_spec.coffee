@@ -32,14 +32,11 @@ config = require('../config.json').tests
 frisby.create('Request token')
     .post config.url + '/auth',
         imap:
-            port: config.imap.port
-            host: config.imap.host
-            user: config.imap.user
-            password: config.imap.password
+            port: ""
+            host: ""
+            user: ""
+            password: ""
     .expectStatus(200)
     .expectHeaderContains('content-type', 'application/json')
-    .expectJSON
-        token: (val) ->
-            global.token = val
-            return true if val? 
     .toss()
+    
