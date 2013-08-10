@@ -22,21 +22,14 @@
     (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
     SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ###
-
-#global: token
-
-
 frisby = require('frisby')
 config = require('../config.json').tests
+                
+config.url = config.url.replace("TOKEN", config.token)
+console.log(config.url)
 
-frisby.create('Request token')
-    .post config.url + '/auth',
-        imap:
-            port: ""
-            host: ""
-            user: ""
-            password: ""
+frisby.create('Get mailboxes')
+    .get(config.url + '/mailbox')
     .expectStatus(200)
     .expectHeaderContains('content-type', 'application/json')
     .toss()
-    

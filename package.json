@@ -1,20 +1,20 @@
 {
-  "name": "webmail-backend",
-  "version": "0.1.0",
-  "author": "Jakob Gillich",
-  "description": "RESTful webmail backend",
-  "dependencies": {
-    "inbox": "latest",
-    "nodemailer": "latest",
-    "underscore": "latest",
-    "restify": "latest",
-    "later": "latest"
-  },
-  "scripts": {
-    "start": "coffee -w -c -o build/ src/ & sleep 1 && nodemon build/app.js",
-    "test": "jasmine-node --coffee spec/"
-  },
-  "devDependencies": {
-    "frisby": "latest"
-  }
+    "name": "webmail-backend",
+    "version": "0.1.0",
+    "author": "Jakob Gillich",
+    "description": "RESTful webmail backend",
+    "dependencies": {
+        "inbox": "latest",
+        "nodemailer": "latest",
+        "underscore": "latest",
+        "restify": "latest",
+        "later": "latest"
+    },
+    "scripts": {
+        "start": "coffee -w -c -o build/ src/ & sleep 1 && cp config.json build/config.json && nodemon build/app.js",
+        "test": "jasmine-node --coffee spec/auth_spec.coffee spec/imap_spec.coffee"
+    },
+    "devDependencies": {
+        "frisby": "latest"
+    }
 }
