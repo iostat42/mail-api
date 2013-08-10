@@ -1,11 +1,16 @@
 {
-    "tests": {
-        "url": "http://localhost:8080",
-        "imap": {
-            "user": "",
-            "password": "",
-            "host": "",
-            "port": "993"
+    "tokens": {
+        "2bde2b69afb6ced6265e5d77e45c3174": {
+            "imap": {
+                "user": "",
+                "password": "",
+                "host": "",
+                "port": "993"
+            }
         }
-    }    
+    },
+    "tests": {
+        "url": "http://anonymous:TOKEN@localhost:8080",
+        "token": "2bde2b69afb6ced6265e5d77e45c3174"
+    }
 }

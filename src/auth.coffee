@@ -28,6 +28,8 @@
 
 crypto = require('crypto')
 later = require('later')
+config = require('../config.json')
+_ = require('underscore')
 
 server = module.parent.exports
 
@@ -35,6 +37,9 @@ server = module.parent.exports
 # I have no idea if this is a good idea, but sending
 # everything with every request doesn't sound very secure either
 data = {}
+
+# Load static tokens from config
+data = _.extend(data, config.tokens)
 
 # Empty all data every 60 min
 # Clients are supposed to reconnect automatically
