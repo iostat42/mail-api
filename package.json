@@ -14,7 +14,7 @@
   },
   "scripts": {
     "start": "node server.js",
-    "test": "jasmine-node --coffee spec/auth_spec.coffee spec/imap_spec.coffee"
+    "test": "jasmine-node --coffee spec/auth_spec.js spec/imap_spec.js"
   },
   "devDependencies": {
     "frisby": "~0.7.1"
