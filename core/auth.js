@@ -1,4 +1,4 @@
-###
+/*
     Copyright (c) 2013, Jakob Gillich
     All rights reserved.
     
@@ -21,21 +21,66 @@
     ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
     (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
     SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-###
+*/
 
-restify = require('restify')
-nodemailer = require('nodemailer')
-underscore = require('underscore')
 
-server = module.exports = restify.createServer()
+(function() {
+  var config, crypto, data, later, server, _;
 
-server.use(restify.fullResponse())
-server.use(restify.gzipResponse())
-server.use(restify.bodyParser())
-server.use(restify.authorizationParser())
+  crypto = require('crypto');
 
-require('./auth.js')
-require('./imap.js')
+  later = require('later');
 
-server.listen 8080, () ->
-    console.log('%s listening at %s', server.name, server.url)
+  config = require('../config.json');
+
+  _ = require('underscore');
+
+  server = module.parent.exports;
+
+  data = {};
+
+  data = _.extend(data, config.tokens);
+
+  /*
+  later.setTimeout () ->
+      data = {}
+  , later.parse.text('every 60 min')
+  */
+
+
+  server.post('/auth', function(req, res, next) {
+    return crypto.randomBytes(16, function(ex, buf) {
+      var token;
+      token = buf.toString('hex');
+      if (req.params.imap == null) {
+        return res.send(400, {
+          "error": "Authentication information missing (imap)"
+        });
+      }
+      data[token] = {
+        imap: {
+          port: req.params.imap.port,
+          host: req.params.imap.host,
+          user: req.params.imap.user,
+          password: req.params.imap.password
+        }
+      };
+      return res.send(200, {
+        token: token
+      });
+    });
+  });
+
+  module.exports = {
+    requireAuth: function(token, callback, errorCallback) {
+      if (token == null) {
+        return errorCallback(401, "Token required");
+      }
+      if (data[token] == null) {
+        return errorCallback(401, "Token invalid");
+      }
+      return callback(data[token]);
+    }
+  };
+
+}).call(this);

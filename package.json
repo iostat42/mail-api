@@ -11,7 +11,7 @@
         "later": "latest"
     },
     "scripts": {
-        "start": "coffee -w -c -o build/ src/ & sleep 1 && cp config.json build/config.json && nodemon build/app.js",
+        "start": "nodemon server.js",
         "test": "jasmine-node --coffee spec/auth_spec.coffee spec/imap_spec.coffee"
     },
     "devDependencies": {
