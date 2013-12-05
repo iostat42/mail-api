@@ -1,13 +1,16 @@
 var inbox       = require('inbox'),
+    util        = require('./util'),
     config      = require('../config'),
 
-    imapClient  = inbox.createConnection(config.imap.port, config.imap.host, {
-        secureConnection: true,
+    imapClient  = inbox.createConnection(null, config.imap.host, {
+        secureConnection: config.imap.secureConnection,
         auth:{
             user: config.imap.user,
             pass: config.imap.password
         }
     });
+    
+imapClient.connect();
     
     
 module.exports = function(server) {

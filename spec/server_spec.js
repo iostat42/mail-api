@@ -3,7 +3,8 @@ process.env.NODE_ENV = 'testing';
 
 var frisby			= require('frisby'),
     config			= require('../config'),
-
+    url				= config.server.url || 'localhost';
+    
 // Run server
 require('../server');
 
