@@ -13,10 +13,11 @@
     "nodemailer": "~0.5.13"
   },
   "scripts": {
-    "start": "node server.js",
-    "test": "jasmine-node spec/server_spec.js"
+    "start": "node index.js",
+    "test": "jasmine-node spec/server_spec.js --captureExceptions"
   },
   "devDependencies": {
-    "frisby": "~0.7.1"
+    "frisby": "~0.7.1",
+    "hoodiecrow": "~1.1.16"
   }
 }

@@ -4,7 +4,7 @@ var inbox       = require('inbox'),
 
     imapClient  = inbox.createConnection(null, config.imap.host, {
         secureConnection: config.imap.secureConnection,
-        auth:{
+        auth: {
             user: config.imap.user,
             pass: config.imap.password
         }

@@ -1,9 +1,9 @@
 var express     = require('express'),
     _           = require('underscore'),
     
-    config      = require('./config'),
-    mailboxes    = require('./core/mailboxes'),
-    messages    = require('./core/messages'),
+    config      = require('../config'),
+    mailboxes   = require('./mailboxes'),
+    messages    = require('./messages'),
     
     server      = express();
     
@@ -12,4 +12,4 @@ var express     = require('express'),
 mailboxes(server);
 messages(server);
 
-server.listen(config.server.port);
+module.exports = server;

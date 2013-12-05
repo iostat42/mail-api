@@ -33,10 +33,10 @@ config = {
             port: 8080
         },
         imap: {
-            user: "",
-            password: "",
+            user: "testuser",
+            password: "testpass",
             host: "localhost",
-            port: 993,
+            port: 9993,
             secureConnection: true
         }
     }
