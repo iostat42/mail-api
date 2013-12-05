@@ -2,11 +2,10 @@ var express     = require('express'),
     _           = require('underscore'),
     
     config      = require('../config'),
-    mailboxes   = require('./mailboxes'),
-    messages    = require('./messages'),
+    mailboxes   = require('./routes/mailboxes'),
+    messages    = require('./routes/messages'),
     
     server      = express();
-    
 
 // Register routes
 mailboxes(server);

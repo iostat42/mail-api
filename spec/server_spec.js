@@ -3,10 +3,7 @@ process.env.NODE_ENV = 'testing';
 
 var frisby			= require('frisby'),
     config			= require('../config'),
-    hoodiecrow      = require("hoodiecrow"),
-    data            = require('./data'),
     apiServer       = require('../core/server'),
-    imapServer      = hoodiecrow(data.hoodiecrow),
     url             = 'localhost:' + config.server.port; 
 
 describe("Asynchronous specs", function() {
@@ -15,12 +12,13 @@ describe("Asynchronous specs", function() {
     it("should start imap server", function() {
         runs(function() {
             flag = false;
-            imapServer.listen(config.imap.port);
+            require('./hoodiecrow');
             flag = true;
         });
         waitsFor(function() {
             return flag;
         }, "The imap server should be started", 1000);
+        runs(function() {});
     });
 
     it("should start api server", function() {
@@ -33,10 +31,9 @@ describe("Asynchronous specs", function() {
         waitsFor(function() {
             return flag;
         }, "The api server should be started", 1000);
+        runs(function() {});
     });
 });
-
-console.log(url + '/mailboxes');
 
 // Run tests
 frisby.create('Get mailboxes')

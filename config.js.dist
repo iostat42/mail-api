@@ -12,7 +12,7 @@ config = {
             user: "",
             password: "",
             host: "localhost",
-            port: 993,
+            port: 9993,
             secureConnection: true
         }
     },

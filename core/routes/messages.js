@@ -1,6 +1,6 @@
 var inbox       = require('inbox'),
-    util        = require('./util'),
-    config      = require('../config'),
+    util        = require('../util'),
+    config      = require('../../config'),
 
     imapClient  = inbox.createConnection(null, config.imap.host, {
         secureConnection: config.imap.secureConnection,
