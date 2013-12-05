@@ -1,9 +1,9 @@
 {
-  "name": "webmail-backend",
+  "name": "mail-api",
   "version": "0.1.0",
   "author": "Jakob Gillich <jakob@gillich.me>",
-  "description": "RESTful webmail backend",
-  "homepage": "https://github.com/jgillich/webmail-backend",
+  "description": "RESTful mail api",
+  "homepage": "https://github.com/jgillich/mail-api",
   "dependencies": {
     "later": "~1.1.6",
     "express": "~3.4.6",
@@ -17,7 +17,6 @@
     "test": "jasmine-node spec/server_spec.js"
   },
   "devDependencies": {
-    "frisby": "~0.7.1",
-    "imap-server": "0.0.1"
+    "frisby": "~0.7.1"
   }
 }
