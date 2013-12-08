@@ -1,19 +1,9 @@
 /*jslint node: true */
 "use strict";
 
-var inbox       = require('inbox'),
-    util        = require('../util'),
-    config      = require('../../config'),
-
-    imapClient  = inbox.createConnection(null, config.imap.host, {
-        secureConnection: config.imap.secureConnection,
-        auth: {
-            user: config.imap.user,
-            pass: config.imap.password
-        }
-    });
+var util        = require('../util');
     
-function registerRoutes(server) {
+function registerRoutes(server, imapClient) {
     // Retrieve messages
     server.get('/messages', function (req, res) {
         
@@ -30,9 +20,6 @@ function registerRoutes(server) {
     });
 }
     
-module.exports = function (server) {
-    imapClient.connect();
-    imapClient.on("connect", function () {
-        registerRoutes(server);
-    });
+module.exports = function (server, imapClient) {
+    registerRoutes(server, imapClient);
 };
