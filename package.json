@@ -14,7 +14,7 @@
   },
   "scripts": {
     "start": "node index.js",
-    "test": "jasmine-node spec/server_spec.js --captureExceptions"
+    "test": "mocha"
   },
   "devDependencies": {
     "frisby": "~0.7.1",
