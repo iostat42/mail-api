@@ -12,8 +12,10 @@ var inbox       = require('inbox'),
     imapClient;
 
 module.exports = {
-    listen: function () {
+    listen: function (callback) {
+        var args = arguments;
         imapClient  = inbox.createConnection(config.imap.port, config.imap.host, {
+            secureConnection: config.imap.secureConnection,
             auth: {
                 user: config.imap.user,
                 pass: config.imap.password
@@ -23,10 +25,11 @@ module.exports = {
         imapClient.on("connect", function () {
             messages(server, imapClient);
             mailboxes(server, imapClient);
-            httpServer = server.listen.apply(server, arguments);
+            httpServer = server.listen.apply(server, args);
         });
     },
     close: function () {
         httpServer.close();
+        imapClient.close();
     }
 };
