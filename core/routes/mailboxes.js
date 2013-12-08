@@ -9,9 +9,6 @@ var inbox       = require('inbox'),
             pass: config.imap.password
         }
     });
-    
-imapClient.connect();
-
 
 function makeCallback(req, res) {
     return function (error, mailboxes) {
@@ -23,9 +20,15 @@ function makeCallback(req, res) {
     };
 }
 
-module.exports = function(server) {
+function registerRoutes(server) {
     server.get('/mailboxes', function(req, res) {
         imapClient.listMailboxes(makeCallback(req, res));
     });
-    
+}
+
+module.exports = function(server) {
+    imapClient.connect();
+    imapClient.on("connect", function() {
+        registerRoutes(server);
+    });
 };

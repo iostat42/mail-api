@@ -10,23 +10,26 @@ var inbox       = require('inbox'),
         }
     });
     
-imapClient.connect();
-    
-    
-module.exports = function(server) {
+function registerRoutes(server) {
     // Retrieve messages
-    server.get('/messages', function(req, res) {
+    server.get('/messages', function (req, res) {
         
     });
     
     // Send message
-    server.post('/messages', function(req, res) {
+    server.post('/messages', function (req, res) {
         
     });
     
     // Delete message
-    server.delete('/messages', function(req, res) {
+    server.delete('/messages', function (req, res) {
         
     });
+}
     
+module.exports = function (server) {
+    imapClient.connect();
+    imapClient.on("connect", function () {
+        registerRoutes(server);
+    });
 };
