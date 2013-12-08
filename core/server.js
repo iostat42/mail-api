@@ -1,3 +1,6 @@
+/*jslint node: true */
+"use strict";
+
 var express     = require('express'),
     _           = require('underscore'),
     

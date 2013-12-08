@@ -1,3 +1,6 @@
+/*jslint node: true */
+"use strict";
+
 var inbox       = require('inbox'),
     util        = require('../util'),
     config      = require('../../config'),

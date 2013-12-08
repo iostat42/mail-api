@@ -1,3 +1,6 @@
+/*jslint node: true */
+"use strict";
+
 var inbox       = require('inbox'),
     util        = require('../util'),
     config      = require('../../config'),
@@ -12,7 +15,7 @@ var inbox       = require('inbox'),
 
 function makeCallback(req, res) {
     return function (error, mailboxes) {
-        if(error) {
+        if (error) {
             util.error(error);
             return res.json(500, { message: "Error" });
         }
@@ -21,14 +24,14 @@ function makeCallback(req, res) {
 }
 
 function registerRoutes(server) {
-    server.get('/mailboxes', function(req, res) {
+    server.get('/mailboxes', function (req, res) {
         imapClient.listMailboxes(makeCallback(req, res));
     });
 }
 
-module.exports = function(server) {
+module.exports = function (server) {
     imapClient.connect();
-    imapClient.on("connect", function() {
+    imapClient.on("connect", function () {
         registerRoutes(server);
     });
 };
