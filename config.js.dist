@@ -39,8 +39,8 @@ config = {
             user: "testuser",
             password: "testpass",
             host: "localhost",
-            port: 9993,
-            secureConnection: true
+            port: 1143,
+            secureConnection: false
         }
     }
 };
