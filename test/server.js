@@ -75,8 +75,8 @@ describe('server', function () {
         }).listen(config.smtp.port);
         imapServer.listen(config.imap.port, function () {
             apiServer.listen(config.server.port, function () {
-				done();
-			});
+                done();
+            });
         });
     });
 });
