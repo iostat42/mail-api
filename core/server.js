@@ -17,13 +17,7 @@ module.exports = {
         
         server.use(express.bodyParser());
         
-        imapClient  = inbox.createConnection(config.imap.port, config.imap.host, {
-            secureConnection: config.imap.secureConnection,
-            auth: {
-                user: config.imap.user,
-                pass: config.imap.password
-            }
-        });
+        imapClient = inbox.createConnection(config.imap.port, config.imap.host, config.imap);
         imapClient.connect();
         imapClient.on("connect", function () {
             messages(server, imapClient);

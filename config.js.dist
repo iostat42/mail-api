@@ -12,8 +12,10 @@ config = {
             port: 8080
         },
         imap: {
-            user: "",
-            password: "",
+            auth: {
+                user: "",
+                pass: ""
+            },
             host: "localhost",
             port: 993,
             secureConnection: true
@@ -33,8 +35,10 @@ config = {
             port: 8080
         },
         imap: {
-            user: "",
-            password: "",
+            auth: {
+                user: "",
+                pass: ""
+            },
             host: "localhost",
             port: 993,
             secureConnection: true
@@ -54,8 +58,10 @@ config = {
             port: 8080
         },
         imap: {
-            user: "testuser",
-            password: "testpass",
+            auth: {
+                user: "testuser",
+                pass: "testpass"
+            },
             host: "localhost",
             port: 1143,
             secureConnection: false
