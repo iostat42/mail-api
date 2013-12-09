@@ -1,8 +1,6 @@
 /*jslint node: true */
 "use strict";
 
-var util        = require('../util');
-
 module.exports = function (server, imapClient) {
     // Retrieve messages
     server.get('/messages', function (req, res) {

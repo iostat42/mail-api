@@ -12,7 +12,7 @@ var inbox       = require('inbox'),
     imapClient;
 
 module.exports = {
-    listen: function (callback) {
+    listen: function () {
         var args = arguments;
         imapClient  = inbox.createConnection(config.imap.port, config.imap.host, {
             secureConnection: config.imap.secureConnection,

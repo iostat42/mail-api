@@ -1,5 +1,5 @@
 /*jslint node: true */
-/*global describe, it, before, done, after */
+/*global describe, it, before, after */
 "use strict";
 
 process.env.NODE_ENV = 'testing';
@@ -65,7 +65,7 @@ var assert          = require('assert'),
     });
 
 describe('server', function () {
-    it("should start server", function (done) {
+    before(function (done) {
         imapServer.listen(config.imap.port, function () {
             apiServer.listen(config.server.port, function () {
 				done();
