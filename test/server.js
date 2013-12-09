@@ -65,7 +65,7 @@ var assert          = require('assert'),
     });
 
 describe('server', function () {
-    before(function (done) {
+    it("should start server", function (done) {
         imapServer.listen(config.imap.port, function () {
             apiServer.listen(config.server.port, function () {
 				done();
@@ -86,8 +86,9 @@ describe('/mailboxes', function () {
 });
 
 describe('server', function () {
-    after(function () {
+    it("should close server", function (done) {
         imapServer.close();
         apiServer.close();
+        done();
     });
 });
