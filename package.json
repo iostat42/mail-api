@@ -14,13 +14,14 @@
   },
   "scripts": {
     "start": "node index.js",
-    "test": "mocha"
+    "test": "grunt validate"
   },
   "devDependencies": {
     "frisby": "~0.7.1",
     "hoodiecrow": "~1.1.16",
     "request": "~2.29.0",
     "grunt": "~0.4.2",
-    "grunt-contrib-jshint": "~0.7.2"
+    "grunt-contrib-jshint": "~0.7.2",
+    "grunt-mocha-cli": "~1.4.0"
   }
 }

@@ -11,14 +11,23 @@ module.exports = function (grunt) {
             options: {
                 jshintrc: true
             },
-            all: ['core/**/*.js', 'test/*.js']
+            all: ['core/**/*.js', 'test/*.js', 'config.js.dist', 'index.js']
+        },
+        mochacli: {
+            options: {
+                ui: 'bdd',
+                reporter: 'spec'
+            },
+            all: ['test/*.js']
         }
     });
     
     grunt.loadNpmTasks('grunt-contrib-jshint');
+    grunt.loadNpmTasks('grunt-mocha-cli');
     
     grunt.registerTask('validate', [
-        'jshint'
+        'jshint',
+        'mochacli'
     ]);
     
     grunt.registerTask('default', []);
