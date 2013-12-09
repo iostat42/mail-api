@@ -75,7 +75,7 @@ describe('server', function () {
 });
 
 describe('/mailboxes', function () {
-    it('should return 200', function (done) {
+    it('should return list of mailboxes', function (done) {
         request(url + '/mailboxes', function (error, response, body) {
             assert.equal(!!error, false);
             assert.equal(200, response.statusCode);
