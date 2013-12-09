@@ -6,11 +6,14 @@ process.env.NODE_ENV = 'testing';
 
 var assert          = require('assert'),
     hoodiecrow      = require("hoodiecrow"),
+    simplesmtp      = require('simplesmtp'),
     request         = require('request'),
+    MailParser      = require("mailparser").MailParser,
     apiServer       = require('../core/server'),
     config          = require('../config'),
     
     url             = 'http://localhost:' + config.server.port,
+    mailparser = new MailParser(),
     imapServer      = hoodiecrow({
         plugins: ["ID", "STARTTLS", "SASL-IR", "AUTH-PLAIN", "NAMESPACE", "IDLE", "ENABLE", "CONDSTORE", "XTOYBIRD", "LITERALPLUS", "UNSELECT", "SPECIAL-USE", "CREATE-SPECIAL-USE"],
         storage: {
@@ -66,6 +69,10 @@ var assert          = require('assert'),
 
 describe('server', function () {
     it("should start server", function (done) {
+        simplesmtp.createSimpleServer({SMTPBanner: "My Server"}, function (req) {
+            req.pipe(mailparser);
+            req.accept();
+        }).listen(config.smtp.port);
         imapServer.listen(config.imap.port, function () {
             apiServer.listen(config.server.port, function () {
 				done();
@@ -81,6 +88,27 @@ describe('/mailboxes', function () {
             assert.equal(200, response.statusCode);
             assert.equal('{"items":[{"name":"[Gmail]","path":"[Gmail]","type":"Normal","delimiter":"/","hasChildren":true}]}', body);
             done();
+        });
+    });
+});
+
+describe('/messages', function () {
+    it('should send message', function (done) {
+        mailparser.on("end", function(mail_object){
+            assert(mail_object.from, "from@localhost");
+            assert(mail_object.to, "to@localhost");
+            assert(mail_object.subject, "test");
+            assert(mail_object.text, "Just a test");
+            done();
+        });
+        request.post(url + '/messages', { form: {
+            from: "from@localhost",
+            to: "to@localhost",
+            subject: "test",
+            text: "Just a test"
+        }}, function (error, response, body) {
+            assert.equal(!!error, false);
+            assert.equal(200, response.statusCode);
         });
     });
 });

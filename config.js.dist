@@ -15,8 +15,17 @@ config = {
             user: "",
             password: "",
             host: "localhost",
-            port: 9993,
+            port: 993,
             secureConnection: true
+        },
+        smtp: {
+            auth: {
+                user: "",
+                password: ""
+            },
+            host: "",
+            port: "587",
+            secureConnection: false
         }
     },
     production: {
@@ -29,6 +38,15 @@ config = {
             host: "localhost",
             port: 993,
             secureConnection: true
+        },
+        smtp: {
+            auth: {
+                user: "",
+                password: ""
+            },
+            host: "",
+            port: "587",
+            secureConnection: false
         }
     },
     testing: {
@@ -40,6 +58,11 @@ config = {
             password: "testpass",
             host: "localhost",
             port: 1143,
+            secureConnection: false
+        },
+        smtp: {
+            host: "localhost",
+            port: "1587",
             secureConnection: false
         }
     }

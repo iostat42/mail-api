@@ -14,6 +14,9 @@ var inbox       = require('inbox'),
 module.exports = {
     listen: function () {
         var args = arguments;
+        
+        server.use(express.bodyParser());
+        
         imapClient  = inbox.createConnection(config.imap.port, config.imap.host, {
             secureConnection: config.imap.secureConnection,
             auth: {
