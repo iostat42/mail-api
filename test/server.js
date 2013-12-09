@@ -5,14 +5,14 @@
 process.env.NODE_ENV = 'testing';
 
 var assert          = require('assert'),
-    http            = require('http'),
     hoodiecrow      = require("hoodiecrow"),
+    request         = require('request'),
     apiServer       = require('../core/server'),
     config          = require('../config'),
     
     url             = 'http://localhost:' + config.server.port,
     imapServer      = hoodiecrow({
-        plugins: ["IDLE"],
+        plugins: ["ID", "STARTTLS", "SASL-IR", "AUTH-PLAIN", "NAMESPACE", "IDLE", "ENABLE", "CONDSTORE", "XTOYBIRD", "LITERALPLUS", "UNSELECT", "SPECIAL-USE", "CREATE-SPECIAL-USE"],
         storage: {
             "INBOX": {
                 messages: [
@@ -29,29 +29,65 @@ var assert          = require('assert'),
                     {raw: "Subject: hello 5\r\n\r\nWorld 5!"},
                     {raw: "Subject: hello 6\r\n\r\nWorld 6!"}
                 ]
+            },
+            "": {
+                "separator": "/",
+                "folders": {
+                    "[Gmail]": {
+                        "flags": ["\\Noselect"],
+                        "folders": {
+                            "All Mail": {
+                                "special-use": "\\All"
+                            },
+                            "Drafts": {
+                                "special-use": "\\Drafts"
+                            },
+                            "Important": {
+                                "special-use": "\\Important"
+                            },
+                            "Sent Mail": {
+                                "special-use": "\\Sent"
+                            },
+                            "Spam": {
+                                "special-use": "\\Junk"
+                            },
+                            "Starred": {
+                                "special-use": "\\Flagged"
+                            },
+                            "Trash": {
+                                "special-use": "\\Trash"
+                            }
+                        }
+                    }
+                }
             }
         }
     });
 
 describe('server', function () {
-    it('should start server', function (done) {
+    it("should start server", function (done) {
         imapServer.listen(config.imap.port, function () {
-            apiServer.listen(config.server.port, done);
+            apiServer.listen(config.server.port, function () {
+				done();
+			});
         });
-    });
-
-    after(function () {
-        imapServer.close();
-        apiServer.close();
     });
 });
 
 describe('/mailboxes', function () {
     it('should return 200', function (done) {
-        console.log(url + '/mailboxes');
-        http.get(url + '/mailboxes', function (res) {
-            assert.equal(200, res.statusCode);
+        request(url + '/mailboxes', function (error, response, body) {
+            assert.equal(!!error, false);
+            assert.equal(200, response.statusCode);
+            assert.equal('{"items":[{"name":"[Gmail]","path":"[Gmail]","type":"Normal","delimiter":"/","hasChildren":true}]}', body);
             done();
         });
+    });
+});
+
+describe('server', function () {
+    after(function () {
+        imapServer.close();
+        apiServer.close();
     });
 });
