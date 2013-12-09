@@ -2,8 +2,8 @@
 "use strict";
 
 var util        = require('../util');
-    
-function registerRoutes(server, imapClient) {
+
+module.exports = function (server, imapClient) {
     // Retrieve messages
     server.get('/messages', function (req, res) {
         
@@ -18,8 +18,4 @@ function registerRoutes(server, imapClient) {
     server.delete('/messages', function (req, res) {
         
     });
-}
-    
-module.exports = function (server, imapClient) {
-    registerRoutes(server, imapClient);
 };

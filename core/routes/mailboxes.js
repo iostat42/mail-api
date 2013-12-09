@@ -13,12 +13,8 @@ function makeCallback(req, res) {
     };
 }
 
-function registerRoutes(server, imapClient) {
+module.exports = function (server, imapClient) {
     server.get('/mailboxes', function (req, res) {
         imapClient.listMailboxes(makeCallback(req, res));
     });
-}
-
-module.exports = function (server, imapClient) {
-    registerRoutes(server, imapClient);
 };
