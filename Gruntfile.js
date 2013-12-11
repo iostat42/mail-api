@@ -1,9 +1,9 @@
 module.exports = function (grunt) {
 
-     
+
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
-        
+
         jshint: {
             options: {
                 jshintrc: true
@@ -15,7 +15,7 @@ module.exports = function (grunt) {
                 ui: 'bdd',
                 reporter: 'spec'
             },
-            all: ['test/*.js']
+            all: ['core/test/*.js']
         },
         docco: {
             all: {
@@ -26,20 +26,20 @@ module.exports = function (grunt) {
             }
         }
     });
-    
+
     grunt.loadNpmTasks('grunt-contrib-jshint');
     grunt.loadNpmTasks('grunt-mocha-cli');
     grunt.loadNpmTasks('grunt-docco');
-    
+
     grunt.registerTask('validate', [
         'jshint',
         'mochacli'
     ]);
-    
+
     grunt.registerTask('docs', [
         'docco'
     ]);
-    
+
     grunt.registerTask('default', []);
 
 };

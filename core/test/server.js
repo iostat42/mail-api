@@ -7,9 +7,9 @@ var assert          = require('assert'),
     simplesmtp      = require('simplesmtp'),
     request         = require('request'),
     MailParser      = require("mailparser").MailParser,
-    apiServer       = require('../core/server'),
-    config          = require('../config'),
-    
+    apiServer       = require('../server'),
+    config          = require('../../config'),
+
     url             = 'http://localhost:' + config.server.port,
     mailparser = new MailParser(),
     imapServer      = hoodiecrow({
