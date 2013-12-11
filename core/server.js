@@ -1,6 +1,3 @@
-/*jslint node: true */
-"use strict";
-
 var inbox       = require('inbox'),
     express     = require('express'),
     config      = require('../config'),

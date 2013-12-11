@@ -1,6 +1,4 @@
-/*jslint node: true */
 /*global describe, it */
-"use strict";
 
 process.env.NODE_ENV = 'testing';
 

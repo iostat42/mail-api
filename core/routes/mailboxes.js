@@ -1,6 +1,3 @@
-/*jslint node: true */
-"use strict";
-
 module.exports = function (server, imapClient) {
 
     // GET /mailboxes

@@ -1,6 +1,3 @@
-/*jslint node: true */
-"use strict";
-
 var config      = require('./config'),
     server      = require('./core/server');
 
