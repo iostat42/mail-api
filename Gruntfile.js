@@ -16,15 +16,28 @@ module.exports = function (grunt) {
                 reporter: 'spec'
             },
             all: ['test/*.js']
+        },
+        docco: {
+            all: {
+                src: ['core/routes/*.js'],
+                options: {
+                    output: 'docs/'
+                }
+            }
         }
     });
     
     grunt.loadNpmTasks('grunt-contrib-jshint');
     grunt.loadNpmTasks('grunt-mocha-cli');
+    grunt.loadNpmTasks('grunt-docco');
     
     grunt.registerTask('validate', [
         'jshint',
         'mochacli'
+    ]);
+    
+    grunt.registerTask('docs', [
+        'docco'
     ]);
     
     grunt.registerTask('default', []);
