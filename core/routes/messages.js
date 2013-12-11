@@ -1,7 +1,7 @@
 var _           = require('underscore'),
     nodemailer  = require('nodemailer'),
     config      = require('../../config'),
-        
+
     transport = nodemailer.createTransport('SMTP', config.smtp);
 
 module.exports = function (server, imapClient) {
@@ -9,9 +9,9 @@ module.exports = function (server, imapClient) {
     // -------------
     //  Retrieve all messages
     server.get('/messages', function (req, res) {
-        
+
     });
-    
+
     // POST /messages
     // --------------
     //  Send message
@@ -23,11 +23,11 @@ module.exports = function (server, imapClient) {
             res.json(200, { message: response.message });
         });
     });
-    
+
     // DELETE /messages
     // ----------------
     // Delete message
     server.delete('/messages', function (req, res) {
-        
+
     });
 };

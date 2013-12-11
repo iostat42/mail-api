@@ -3,7 +3,7 @@ var inbox       = require('inbox'),
     config      = require('../config'),
     mailboxes   = require('./routes/mailboxes'),
     messages    = require('./routes/messages'),
-    
+
     server      = express(),
     httpServer,
     imapClient;
@@ -11,9 +11,9 @@ var inbox       = require('inbox'),
 module.exports = {
     listen: function () {
         var args = arguments;
-        
+
         server.use(express.bodyParser());
-        
+
         imapClient = inbox.createConnection(config.imap.port, config.imap.host, config.imap);
         imapClient.connect();
         imapClient.on("connect", function () {
