@@ -90,6 +90,21 @@ describe('/mailboxes', function () {
             done();
         });
     });
+    it('should return single mailbox', function (done) {
+        request(url + '/mailboxes/[Gmail]', function (error, response, body) {
+            assert.equal(!!error, false);
+            assert.equal(200, response.statusCode);
+            done();
+        });
+    });
+    it('should return 404 for unknown mailbox', function (done) {
+        request(url + '/mailboxes/thisdoesnotexist', function (error, response, body) {
+            assert.equal(!!error, false);
+            assert.equal(404, response.statusCode);
+            assert.equal('{"message":"Mailbox not found"}', body);
+            done();
+        });
+    });
 });
 
 describe('/messages', function () {

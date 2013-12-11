@@ -1,26 +1,22 @@
-/*jslint node: true */
-"use strict";
-
-var nodemailer = require('nodemailer'),
-    config = require('../../config'),
+var _           = require('underscore'),
+    nodemailer  = require('nodemailer'),
+    config      = require('../../config'),
         
     transport = nodemailer.createTransport('SMTP', config.smtp);
 
 module.exports = function (server, imapClient) {
-    // Retrieve messages
+    // GET /messages
+    // -------------
+    //  Retrieve all messages
     server.get('/messages', function (req, res) {
         
     });
     
-    // Send message
+    // POST /messages
+    // --------------
+    //  Send message
     server.post('/messages', function (req, res) {
-        transport.sendMail({
-            from: req.body.from,
-            to: req.body.to,
-            subject: req.body.subject,
-            text: req.body.text,
-            html: req.body.html
-        }, function (error, response) {
+        transport.sendMail(_.pick(req.body, 'from', 'to', 'subject', 'text', 'html'), function (error, response) {
             if (error) {
                 return res.json(500, { message: error.data });
             }
@@ -28,6 +24,8 @@ module.exports = function (server, imapClient) {
         });
     });
     
+    // DELETE /messages
+    // ----------------
     // Delete message
     server.delete('/messages', function (req, res) {
         

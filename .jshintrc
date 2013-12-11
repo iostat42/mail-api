@@ -3,6 +3,6 @@
     "indent": 4,
     "undef": true,
     "unused": "vars",
-    "strict": true,
-    "trailing": true
+    "trailing": true,
+	"node": true
 }
