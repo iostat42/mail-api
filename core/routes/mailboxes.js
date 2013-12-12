@@ -1,17 +1,6 @@
 module.exports = function (server, imapClient) {
 
-    // GET /mailboxes
-    // --------------
     //  Return a list of all root level mailboxes
-    //  ```
-    //  { "items": [{
-    //      "name": "[Gmail]",
-    //      "path": "[Gmail]",
-    //      "type": "Normal",
-    //      "delimiter": "/",
-    //      "hasChildren": true
-    //  }] }
-    //  ```
     server.get('/mailboxes', function (req, res) {
         imapClient.listMailboxes(function (error, mailboxes) {
             if (error) {
@@ -21,8 +10,6 @@ module.exports = function (server, imapClient) {
         });
     });
 
-    // GET /mailboxes/:path
-    // --------------------
     //  Return single mailbox and all children
     server.get('/mailboxes/:path', function (req, res) {
         imapClient.getMailbox(req.params.path, function (error, mailbox) {

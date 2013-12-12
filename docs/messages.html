@@ -51,10 +51,10 @@
               
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="keyword">var</span> _           = require<span class="string">'underscore'</span>),
+            <div class="content"><div class='highlight'><pre><span class="keyword">var</span> _           = require(<span class="string">'underscore'</span>),
     nodemailer  = require(<span class="string">'nodemailer'</span>),
     config      = require(<span class="string">'../../config'</span>),
-        
+
     transport = nodemailer.createTransport(<span class="string">'SMTP'</span>, config.smtp);
 
 module.exports = <span class="function"><span class="keyword">function</span> <span class="params">(server, imapClient)</span> {</span></pre></div></div>
@@ -68,9 +68,13 @@ module.exports = <span class="function"><span class="keyword">function</span> <s
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-2">&#182;</a>
               </div>
-              <h2 id="get-messages">GET /messages</h2>
+              <p> Retrieve all messages</p>
 
             </div>
+            
+            <div class="content"><div class='highlight'><pre>    server.get(<span class="string">'/messages'</span>, <span class="function"><span class="keyword">function</span> <span class="params">(req, res)</span> {</span>
+
+    });</pre></div></div>
             
         </li>
         
@@ -81,12 +85,17 @@ module.exports = <span class="function"><span class="keyword">function</span> <s
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-3">&#182;</a>
               </div>
-              <p> Retrieve all messages</p>
+              <p> Send message</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>    server.get(<span class="string">'/messages'</span>, <span class="function"><span class="keyword">function</span> <span class="params">(req, res)</span> {</span>
-        
+            <div class="content"><div class='highlight'><pre>    server.post(<span class="string">'/messages'</span>, <span class="function"><span class="keyword">function</span> <span class="params">(req, res)</span> {</span>
+        transport.sendMail(_.pick(req.body, <span class="string">'from'</span>, <span class="string">'to'</span>, <span class="string">'subject'</span>, <span class="string">'text'</span>, <span class="string">'html'</span>), <span class="function"><span class="keyword">function</span> <span class="params">(error, response)</span> {</span>
+            <span class="keyword">if</span> (error) {
+                <span class="keyword">return</span> res.json(<span class="number">500</span>, { message: error.data });
+            }
+            res.json(<span class="number">200</span>, { message: response.message });
+        });
     });</pre></div></div>
             
         </li>
@@ -98,60 +107,12 @@ module.exports = <span class="function"><span class="keyword">function</span> <s
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-4">&#182;</a>
               </div>
-              <h2 id="post-messages">POST /messages</h2>
-
-            </div>
-            
-        </li>
-        
-        
-        <li id="section-5">
-            <div class="annotation">
-              
-              <div class="pilwrap ">
-                <a class="pilcrow" href="#section-5">&#182;</a>
-              </div>
-              <p> Send message</p>
-
-            </div>
-            
-            <div class="content"><div class='highlight'><pre>    server.post(<span class="string">'/messages'</span>, <span class="function"><span class="keyword">function</span> <span class="params">(req, res)</span> {</span>
-        transport.sendMail(_.pick(req.body, <span class="string">'from'</span>, <span class="string">'to'</span>, <span class="string">'subject'</span>, <span class="string">'text'</span>, <span class="string">'html'</span>)), <span class="function"><span class="keyword">function</span> <span class="params">(error, response)</span> {</span>
-            <span class="keyword">if</span> (error) {
-                <span class="keyword">return</span> res.json(<span class="number">500</span>, { message: error.data });
-            }
-            res.json(<span class="number">200</span>, { message: response.message });
-        });
-    });</pre></div></div>
-            
-        </li>
-        
-        
-        <li id="section-6">
-            <div class="annotation">
-              
-              <div class="pilwrap ">
-                <a class="pilcrow" href="#section-6">&#182;</a>
-              </div>
-              <h2 id="delete-messages">DELETE /messages</h2>
-
-            </div>
-            
-        </li>
-        
-        
-        <li id="section-7">
-            <div class="annotation">
-              
-              <div class="pilwrap ">
-                <a class="pilcrow" href="#section-7">&#182;</a>
-              </div>
               <p>Delete message</p>
 
             </div>
             
             <div class="content"><div class='highlight'><pre>    server.<span class="keyword">delete</span>(<span class="string">'/messages'</span>, <span class="function"><span class="keyword">function</span> <span class="params">(req, res)</span> {</span>
-        
+
     });
 };</pre></div></div>
             

@@ -189,8 +189,6 @@
     </a>
     <ul class="toc_section">
       <li>&raquo; <a href="docs/mailboxes.html">Annotated Source</a></li>
-      <li>- <a href="#mailboxes-getall">Get All</a></li>
-      <li>- <a href="#mailboxes-getsingle">Get Single</a></li>
     </ul>
 
 
@@ -199,9 +197,6 @@
     </a>
     <ul class="toc_section">
       <li>&raquo; <a href="docs/messages.html">Annotated Source</a></li>
-      <li>- <a href="#messages-getall">Get All</a></li>
-      <li>- <a href="#messages-putsingle">Put Single</a></li>
-        <li>- <a href="#messages-deletesingle">Delete Single</a></li>
     </ul>
 
   </div>
@@ -221,30 +216,47 @@
       <h2 id="mailboxes">Mailboxes</h2>
 
       <p id="mailboxes-getall">
-        <b class="header">Get All</b><code>GET /mailboxes</code>
+        <b class="header">GET</b><code>/mailboxes</code>
         <br />
+        Return a list of all root level mailboxes
       </p>
+<pre>
+request.get('/mailboxes');
+=> {
+        "items": [{
+            "name": "[Gmail]",
+            "path": "[Gmail]",
+            "type": "Normal",
+            "delimiter": "/",
+            "hasChildren": true
+        }]
+    }
+</pre>
 
       <p id="mailboxes-getsingle">
-        <b class="header">Get Single</b><code>GET /mailboxes/:path</code>
+        <b class="header">GET</b><code>/mailboxes/:path</code>
         <br />
+        Return single mailbox and all children
       </p>
 
       <h2 id="Messages">Messages</h2>
 
       <p id="messages-getalll">
-        <b class="header">Get All</b><code>GET /messages</code>
+        <b class="header">GET</b><code>/messages</code>
         <br />
+          Retrieve all messages
       </p>
 
       <p id="mailboxes-putsingle">
-        <b class="header">Put Single</b><code>PUT /mailboxes</code>
+        <b class="header">PUT</b><code>/mailboxes</code>
         <br />
+        Send message
       </p>
 
       <p id="mailboxes-deletesingle">
-        <b class="header">Delete Single</b><code>DELETE /mailboxes/:id</code>
+        <b class="header">DELETE</b><code>/mailboxes/:id</code>
         <br />
+        Delete message
       </p>
 
     </div>

@@ -5,15 +5,11 @@ var _           = require('underscore'),
     transport = nodemailer.createTransport('SMTP', config.smtp);
 
 module.exports = function (server, imapClient) {
-    // GET /messages
-    // -------------
     //  Retrieve all messages
     server.get('/messages', function (req, res) {
 
     });
 
-    // POST /messages
-    // --------------
     //  Send message
     server.post('/messages', function (req, res) {
         transport.sendMail(_.pick(req.body, 'from', 'to', 'subject', 'text', 'html'), function (error, response) {
@@ -24,8 +20,6 @@ module.exports = function (server, imapClient) {
         });
     });
 
-    // DELETE /messages
-    // ----------------
     // Delete message
     server.delete('/messages', function (req, res) {
 
