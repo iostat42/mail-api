@@ -106,6 +106,22 @@ describe('/mailboxes', function () {
 });
 
 describe('/messages', function () {
+    it('should fail if no mailbox selected', function (done) {
+        request.get(url + '/messages', function (error, response, body) {
+            assert.equal(!!error, false);
+            assert.equal(500, response.statusCode);
+            assert.equal('{"message":"No mailbox selected"}', body);
+            done();
+        });
+    });
+    it('should return list of messages', function (done) {
+        request.get(url + '/messages', { qs: { path: "INBOX" }}, function (error, response, body) {
+            assert.equal(!!error, false);
+            assert.equal(200, response.statusCode);
+            assert.equal('hello 1', JSON.parse(body)[0].title);
+            done();
+        });
+    });
     it('should send message', function (done) {
         mailparser.once("end", function(mail_object){
             assert(mail_object.from, "from@localhost");
