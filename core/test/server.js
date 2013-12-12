@@ -84,7 +84,7 @@ describe('/mailboxes', function () {
         request(url + '/mailboxes', function (error, response, body) {
             assert.equal(!!error, false);
             assert.equal(200, response.statusCode);
-            assert.equal('{"items":[{"name":"[Gmail]","path":"[Gmail]","type":"Normal","delimiter":"/","hasChildren":true}]}', body);
+            assert.equal('[{"name":"[Gmail]","path":"[Gmail]","type":"Normal","delimiter":"/","hasChildren":true}]', body);
             done();
         });
     });

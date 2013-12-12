@@ -6,7 +6,7 @@ module.exports = function (server, imapClient) {
             if (error) {
                 return res.json(500, { message: error.message });
             }
-            res.json(200, { items: mailboxes });
+            res.json(200, mailboxes);
         });
     });
 
