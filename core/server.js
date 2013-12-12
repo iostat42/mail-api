@@ -12,7 +12,7 @@ module.exports = {
     listen: function () {
         var args = arguments;
 
-        server.use(express.bodyParser());
+        server.use(express.urlencoded());
 
         imapClient = inbox.createConnection(config.imap.port, config.imap.host, config.imap);
         imapClient.connect();
