@@ -14,7 +14,7 @@ module.exports = function (server, imapClient) {
     server.post('/messages', function (req, res) {
         transport.sendMail(_.pick(req.body, 'from', 'to', 'subject', 'text', 'html'), function (error, response) {
             if (error) {
-                return res.json(500, { message: error.data });
+                return res.json(500, { message: error.message });
             }
             res.json(200, { message: response.message });
         });
