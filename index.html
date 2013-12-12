@@ -191,13 +191,16 @@
       <li>&raquo; <a href="docs/mailboxes.html">Annotated Source</a></li>
     </ul>
 
-
     <a class="toc_title" href="#messages">
       Messages
     </a>
     <ul class="toc_section">
       <li>&raquo; <a href="docs/messages.html">Annotated Source</a></li>
     </ul>
+
+    <a class="toc_title" href="#conventions">
+      Conventions
+    </a>
 
   </div>
 
@@ -237,20 +240,42 @@ request.get('/mailboxes');
         Return single mailbox and all children
       </p>
 
-      <h2 id="Messages">Messages</h2>
+      <h2 id="messages">Messages</h2>
 
       <p id="messages-getalll">
         <b class="header">GET</b><code>/messages</code>
         <br />
-          Retrieve all messages
+          Retrieve a list of messages. The <tt>path</tt> query must be set to a mailbox.
       </p>
+<pre>
+request.get('/mailboxes', { qs: { path: "INBOX" }});
+=>  [{
+        "UIDValidity": "1",
+        "path": "INBOX",
+        "UID": 1,
+        "flags": [],
+        "folders": ["INBOX"],
+        "type": "Normal",
+        "date": "2013-12-12T21:36:29.186Z",
+        "title": "hello 1",
+        "messageId": ""
+    }]
+</pre>
 
       <p id="mailboxes-putsingle">
         <b class="header">PUT</b><code>/mailboxes</code>
         <br />
         Send message
       </p>
-
+<pre>
+request.post('/messages', { form: {
+    from: "from@localhost",
+    to: "to@localhost",
+    subject: "test",
+    text: "Just a test"
+}};
+=>  { "message": "250 2.0.0 Ok: queued as a7aa7c5d48c14c93e8c9" }
+</pre>
       <p id="mailboxes-deletesingle">
         <b class="header">DELETE</b><code>/mailboxes/:id</code>
         <br />
@@ -258,6 +283,22 @@ request.get('/mailboxes');
       </p>
 
     </div>
+
+    <h2 id="conventions">Conventions</h2>
+      <p>
+        <b>All</b> requests return a valid JSON document and might be converted by <a href="http://expressjs.com/api.html#res.json">res.json</a>.
+          The content type is <i>application/json</i>.
+      </p>
+      <p>
+        <b>All</b> successful requests return a <i>2xx</i> status code.
+        Status codes in the range of <i>4xx</i> and <i>5xx</i> mean an error
+        occured and a description of the error is returned:
+      </p>
+<pre>
+{ "message": "Mailbox not found" }
+</pre>
+
+
 
   </div>
 

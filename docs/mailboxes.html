@@ -71,7 +71,7 @@
             <span class="keyword">if</span> (error) {
                 <span class="keyword">return</span> res.json(<span class="number">500</span>, { message: error.message });
             }
-            res.json(<span class="number">200</span>, { items: mailboxes });
+            res.json(<span class="number">200</span>, mailboxes);
         });
     });</pre></div></div>
             
