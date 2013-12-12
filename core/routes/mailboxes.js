@@ -19,7 +19,12 @@ module.exports = function (server, imapClient) {
             if (mailbox) {
                 mailbox.children = [];
                 if (mailbox.hasChildren) {
-                    mailbox.listChildren(mailbox.children.push);
+                    mailbox.listChildren(function (error, children) {
+                        if(error) {
+                            return res.json(500, { message: error.message });
+                        }
+                        mailbox.children.push(children);
+                    });
                 }
                 return res.json(200, mailbox);
             }
