@@ -96,7 +96,12 @@
             <span class="keyword">if</span> (mailbox) {
                 mailbox.children = [];
                 <span class="keyword">if</span> (mailbox.hasChildren) {
-                    mailbox.listChildren(mailbox.children.push);
+                    mailbox.listChildren(<span class="function"><span class="keyword">function</span> <span class="params">(error, children)</span> {</span>
+                        <span class="keyword">if</span>(error) {
+                            <span class="keyword">return</span> res.json(<span class="number">500</span>, { message: error.message });
+                        }
+                        mailbox.children.push(children);
+                    });
                 }
                 <span class="keyword">return</span> res.json(<span class="number">200</span>, mailbox);
             }
