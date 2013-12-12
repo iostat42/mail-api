@@ -124,10 +124,10 @@ describe('/messages', function () {
     });
     it('should send message', function (done) {
         mailparser.once("end", function(mail_object){
-            assert(mail_object.from, "from@localhost");
-            assert(mail_object.to, "to@localhost");
-            assert(mail_object.subject, "test");
-            assert(mail_object.text, "Just a test");
+            assert.equal(mail_object.headers.from, "from@localhost");
+            assert.equal(mail_object.headers.to, "to@localhost");
+            assert.equal(mail_object.headers.subject, "test");
+            assert.equal(mail_object.text, "Just a test");
             done();
         });
         request.post(url + '/messages', { form: {
