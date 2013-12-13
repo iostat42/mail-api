@@ -1,17 +1,20 @@
 var _           = require('underscore'),
     nodemailer  = require('nodemailer'),
+    middlewares = require('../middlewares'),
     config      = require('../../config'),
 
     transport = nodemailer.createTransport('SMTP', config.smtp),
     MAXLIMIT = 500,
     DEFAULTLIMIT = 50;
 
-module.exports = function (server, imapClient) {
+module.exports = function (server) {
+
+    server.all('/messages*', middlewares.imap);
 
     // Open mailbox if req.query.path is set
     server.all('/messages', function (req, res, next) {
         if(req.query.path) {
-            imapClient.openMailbox(req.query.path, function (error, info) {
+            req.imap.openMailbox(req.query.path, function (error, info) {
                 if(error) {
                     return res.json(500, { message: error.message });
                 }
@@ -24,7 +27,7 @@ module.exports = function (server, imapClient) {
 
     //  Retrieve all messages
     server.get('/messages', function (req, res) {
-        imapClient.listMessages(req.body.from || 0,
+        req.imap.listMessages(req.body.from || 0,
             req.body.limit && req.body.limit < MAXLIMIT ? req.body.limit : DEFAULTLIMIT,
             function (error, messages) {
                 if(error) {

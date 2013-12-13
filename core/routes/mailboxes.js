@@ -1,8 +1,12 @@
-module.exports = function (server, imapClient) {
+var middlewares = require('../middlewares');
+
+module.exports = function (server) {
+
+    server.all('/mailboxes*', middlewares.imap);
 
     //  Return a list of all root level mailboxes
     server.get('/mailboxes', function (req, res) {
-        imapClient.listMailboxes(function (error, mailboxes) {
+        req.imap.listMailboxes(function (error, mailboxes) {
             if (error) {
                 return res.json(500, { message: error.message });
             }
@@ -12,7 +16,7 @@ module.exports = function (server, imapClient) {
 
     //  Return single mailbox and all children
     server.get('/mailboxes/:path', function (req, res) {
-        imapClient.getMailbox(req.params.path, function (error, mailbox) {
+        req.imap.getMailbox(req.params.path, function (error, mailbox) {
             if (error) {
                 return res.json(500, { message: error.message });
             }

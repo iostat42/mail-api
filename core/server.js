@@ -1,29 +1,23 @@
-var inbox       = require('inbox'),
-    express     = require('express'),
-    config      = require('../config'),
+var express     = require('express'),
     mailboxes   = require('./routes/mailboxes'),
     messages    = require('./routes/messages'),
 
     server      = express(),
-    httpServer,
-    imapClient;
+    httpServer;
 
 module.exports = {
     listen: function () {
         var args = arguments;
 
+        server.use(express.compress());
         server.use(express.urlencoded());
 
-        imapClient = inbox.createConnection(config.imap.port, config.imap.host, config.imap);
-        imapClient.connect();
-        imapClient.on("connect", function () {
-            messages(server, imapClient);
-            mailboxes(server, imapClient);
-            httpServer = server.listen.apply(server, args);
-        });
+        messages(server);
+        mailboxes(server);
+
+        httpServer = server.listen.apply(server, args);
     },
     close: function () {
         httpServer.close();
-        imapClient.close();
     }
 };
