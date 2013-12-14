@@ -10,6 +10,12 @@ module.exports = {
     listen: function () {
         var args = arguments;
 
+        server.use(function (req, res, next) {
+            //TODO make it configureable
+            res.setHeader('Access-Control-Allow-Origin', '*');
+            next();
+        });
+
         server.use(express.compress());
         server.use(express.urlencoded());
 
