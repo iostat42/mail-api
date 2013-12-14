@@ -84,6 +84,13 @@ describe('server', function () {
 });
 
 describe('/mailboxes', function () {
+    it('should forbid access without authentication', function (done) {
+        request(url + '/mailboxes', function (error, response, body) {
+            assert.equal(!!error, false);
+            assert.equal(401, response.statusCode);
+            done();
+        });
+    });
     it('should return list of mailboxes', function (done) {
         request(url + '/mailboxes', { auth: auth }, function (error, response, body) {
             assert.equal(!!error, false);
@@ -110,6 +117,13 @@ describe('/mailboxes', function () {
 });
 
 describe('/messages', function () {
+    it('should forbid access without authentication', function (done) {
+        request(url + '/messages', function (error, response, body) {
+            assert.equal(!!error, false);
+            assert.equal(401, response.statusCode);
+            done();
+        });
+    });
     it('should fail if no mailbox selected', function (done) {
         request.get(url + '/messages', { auth: auth }, function (error, response, body) {
             assert.equal(!!error, false);
