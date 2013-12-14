@@ -24,6 +24,7 @@ module.exports = {
     auth: function (req, res, next) {
         var user = auth(req);
         if(!user || !config.auth[user.pass]) {
+            res.setHeader('WWW-Authenticate', 'Basic realm="api"');
             var error = new Error("Unauthorized");
             error.statusCode = 401;
             return next(error);
