@@ -8,47 +8,13 @@ config = {
         server: {
             port: 4110
         },
-        imap: {
-            auth: {
-                user: "",
-                pass: ""
-            },
-            host: "localhost",
-            port: 993,
-            secureConnection: true
-        },
-        smtp: {
-            auth: {
-                user: "",
-                password: ""
-            },
-            host: "",
-            port: "587",
-            secureConnection: false
-        }
+        auth: {}
     },
     production: {
         server: {
             port: 4110
         },
-        imap: {
-            auth: {
-                user: "",
-                pass: ""
-            },
-            host: "localhost",
-            port: 993,
-            secureConnection: true
-        },
-        smtp: {
-            auth: {
-                user: "",
-                password: ""
-            },
-            host: "",
-            port: "587",
-            secureConnection: false
-        }
+        auth: {}
     },
     testing: {
         server: {
