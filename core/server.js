@@ -13,6 +13,8 @@ module.exports = {
         server.use(function (req, res, next) {
             //TODO make it configureable
             res.setHeader('Access-Control-Allow-Origin', '*');
+            res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+            res.setHeader('Access-Control-Allow-Headers', 'Authorization');
             next();
         });
 
