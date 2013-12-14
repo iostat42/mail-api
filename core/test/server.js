@@ -86,31 +86,31 @@ describe('server', function () {
 describe('/mailboxes', function () {
     it('should forbid access without authentication', function (done) {
         request(url + '/mailboxes', function (error, response, body) {
-            assert.equal(!!error, false);
-            assert.equal(401, response.statusCode);
+            assert.ifError(error);
+            assert.strictEqual(response.statusCode, 401);
             done();
         });
     });
     it('should return list of mailboxes', function (done) {
         request(url + '/mailboxes', { auth: auth }, function (error, response, body) {
-            assert.equal(!!error, false);
-            assert.equal(200, response.statusCode);
-            assert.equal('[{"name":"[Gmail]","path":"[Gmail]","type":"Normal","delimiter":"/","hasChildren":true}]', body);
+            assert.ifError(error);
+            assert.strictEqual(response.statusCode, 200);
+            assert.strictEqual(body, '[{"name":"[Gmail]","path":"[Gmail]","type":"Normal","delimiter":"/","hasChildren":true}]');
             done();
         });
     });
     it('should return single mailbox', function (done) {
         request(url + '/mailboxes/[Gmail]', { auth: auth }, function (error, response, body) {
-            assert.equal(!!error, false);
-            assert.equal(200, response.statusCode);
+            assert.ifError(error);
+            assert.strictEqual(response.statusCode, 200);
             done();
         });
     });
     it('should return 404 for unknown mailbox', function (done) {
         request(url + '/mailboxes/thisdoesnotexist', { auth: auth }, function (error, response, body) {
-            assert.equal(!!error, false);
-            assert.equal(404, response.statusCode);
-            assert.equal('{"message":"Mailbox not found"}', body);
+            assert.ifError(error);
+            assert.strictEqual(response.statusCode, 404);
+            assert.strictEqual(body, '{"message":"Mailbox not found"}');
             done();
         });
     });
@@ -119,33 +119,33 @@ describe('/mailboxes', function () {
 describe('/messages', function () {
     it('should forbid access without authentication', function (done) {
         request(url + '/messages', function (error, response, body) {
-            assert.equal(!!error, false);
-            assert.equal(401, response.statusCode);
+            assert.ifError(error);
+            assert.strictEqual(response.statusCode, 401);
             done();
         });
     });
     it('should fail if no mailbox selected', function (done) {
         request.get(url + '/messages', { auth: auth }, function (error, response, body) {
-            assert.equal(!!error, false);
-            assert.equal(500, response.statusCode);
-            assert.equal('{"message":"No mailbox selected"}', body);
+            assert.ifError(error);
+            assert.strictEqual(response.statusCode, 500);
+            assert.strictEqual(body, '{"message":"No mailbox selected"}');
             done();
         });
     });
     it('should return list of messages', function (done) {
         request.get(url + '/messages', { auth: auth, qs: { path: "INBOX" }}, function (error, response, body) {
-            assert.equal(!!error, false);
-            assert.equal(200, response.statusCode);
-            assert.equal('hello 1', JSON.parse(body)[0].title);
+            assert.ifError(error);
+            assert.strictEqual(response.statusCode, 200);
+            assert.strictEqual(JSON.parse(body)[0].title, 'hello 1');
             done();
         });
     });
     it('should send message', function (done) {
         mailparser.once("end", function(mail_object){
-            assert.equal(mail_object.headers.from, "from@localhost");
-            assert.equal(mail_object.headers.to, "to@localhost");
-            assert.equal(mail_object.headers.subject, "test");
-            assert.equal(mail_object.text, "Just a test");
+            assert.strictEqual(mail_object.headers.from, "from@localhost");
+            assert.strictEqual(mail_object.headers.to, "to@localhost");
+            assert.strictEqual(mail_object.headers.subject, "test");
+            assert.strictEqual(mail_object.text, "Just a test");
             done();
         });
         request.post(url + '/messages', { auth: auth, form: {
@@ -154,8 +154,8 @@ describe('/messages', function () {
             subject: "test",
             text: "Just a test"
         }}, function (error, response, body) {
-            assert.equal(!!error, false);
-            assert.equal(200, response.statusCode);
+            assert.ifError(error);
+            assert.strictEqual(response.statusCode, 200);
         });
     });
 });
