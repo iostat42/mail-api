@@ -4,6 +4,10 @@
   "author": "Jakob Gillich <jakob@gillich.me>",
   "description": "RESTful mail api",
   "homepage": "https://github.com/jgillich/mail-api",
+  "repository" : {
+      "type" : "git",
+      "url" : "https://github.com/jgillich/mail-api.git"
+  },
   "dependencies": {
     "express": "~3.4.7",
     "underscore": "~1.5.2",
