@@ -52,14 +52,14 @@
             </div>
             
             <div class="content"><div class='highlight'><pre><span class="keyword">var</span> _           = require(<span class="string">'underscore'</span>),
-    nodemailer  = require(<span class="string">'nodemailer'</span>),
-    config      = require(<span class="string">'../../config'</span>),
+    middlewares = require(<span class="string">'../middlewares'</span>),
 
-    transport = nodemailer.createTransport(<span class="string">'SMTP'</span>, config.smtp),
     MAXLIMIT = <span class="number">500</span>,
     DEFAULTLIMIT = <span class="number">50</span>;
 
-module.exports = <span class="function"><span class="keyword">function</span> <span class="params">(server, imapClient)</span> {</span></pre></div></div>
+module.exports = <span class="function"><span class="keyword">function</span> <span class="params">(server)</span> {</span>
+
+    server.all(<span class="string">'/messages*'</span>, middlewares.auth, middlewares.imap, middlewares.smtp);</pre></div></div>
             
         </li>
         
@@ -76,7 +76,7 @@ module.exports = <span class="function"><span class="keyword">function</span> <s
             
             <div class="content"><div class='highlight'><pre>    server.all(<span class="string">'/messages'</span>, <span class="function"><span class="keyword">function</span> <span class="params">(req, res, next)</span> {</span>
         <span class="keyword">if</span>(req.query.path) {
-            imapClient.openMailbox(req.query.path, <span class="function"><span class="keyword">function</span> <span class="params">(error, info)</span> {</span>
+            req.imap.openMailbox(req.query.path, <span class="function"><span class="keyword">function</span> <span class="params">(error, info)</span> {</span>
                 <span class="keyword">if</span>(error) {
                     <span class="keyword">return</span> res.json(<span class="number">500</span>, { message: error.message });
                 }
@@ -101,7 +101,7 @@ module.exports = <span class="function"><span class="keyword">function</span> <s
             </div>
             
             <div class="content"><div class='highlight'><pre>    server.get(<span class="string">'/messages'</span>, <span class="function"><span class="keyword">function</span> <span class="params">(req, res)</span> {</span>
-        imapClient.listMessages(req.body.from || <span class="number">0</span>,
+        req.imap.listMessages(req.body.from || <span class="number">0</span>,
             req.body.limit &amp;&amp; req.body.limit &lt; MAXLIMIT ? req.body.limit : DEFAULTLIMIT,
             <span class="function"><span class="keyword">function</span> <span class="params">(error, messages)</span> {</span>
                 <span class="keyword">if</span>(error) {
@@ -126,7 +126,7 @@ module.exports = <span class="function"><span class="keyword">function</span> <s
             </div>
             
             <div class="content"><div class='highlight'><pre>    server.post(<span class="string">'/messages'</span>, <span class="function"><span class="keyword">function</span> <span class="params">(req, res)</span> {</span>
-        transport.sendMail(_.pick(req.body, <span class="string">'from'</span>, <span class="string">'to'</span>, <span class="string">'subject'</span>, <span class="string">'text'</span>, <span class="string">'html'</span>), <span class="function"><span class="keyword">function</span> <span class="params">(error, response)</span> {</span>
+        req.smtp.sendMail(_.pick(req.body, <span class="string">'from'</span>, <span class="string">'to'</span>, <span class="string">'subject'</span>, <span class="string">'text'</span>, <span class="string">'html'</span>), <span class="function"><span class="keyword">function</span> <span class="params">(error, response)</span> {</span>
             <span class="keyword">if</span> (error) {
                 <span class="keyword">return</span> res.json(<span class="number">500</span>, { message: error.message });
             }

@@ -286,11 +286,14 @@ request.post('/messages', { form: {
 
     <h2 id="conventions">Conventions</h2>
       <p>
-        <b>All</b> requests return a valid JSON document and are converted by <a href="http://expressjs.com/api.html#res.json">res.json</a>.
+        <b>All</b> requests must authenticate using a token as password. Usernames are ignored. For now, tokens are configured in <tt>config.js</tt>.
+      </p>
+      <p>
+        <b>All</b> responses contain a valid JSON document and are converted by <a href="http://expressjs.com/api.html#res.json">res.json</a>.
           The content type is <i>application/json</i>.
       </p>
       <p>
-        <b>All</b> successful requests return a <i>2xx</i> status code.
+        <b>All</b> successful resonses contain a <i>2xx</i> status code.
         Status codes in the range of <i>4xx</i> and <i>5xx</i> mean an error
         occured and a description of the error is returned:
       </p>

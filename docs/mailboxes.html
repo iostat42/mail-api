@@ -51,7 +51,11 @@
               
             </div>
             
-            <div class="content"><div class='highlight'><pre>module.exports = <span class="function"><span class="keyword">function</span> <span class="params">(server, imapClient)</span> {</span></pre></div></div>
+            <div class="content"><div class='highlight'><pre><span class="keyword">var</span> middlewares = require(<span class="string">'../middlewares'</span>);
+
+module.exports = <span class="function"><span class="keyword">function</span> <span class="params">(server)</span> {</span>
+
+    server.all(<span class="string">'/mailboxes*'</span>, middlewares.auth, middlewares.imap);</pre></div></div>
             
         </li>
         
@@ -67,7 +71,7 @@
             </div>
             
             <div class="content"><div class='highlight'><pre>    server.get(<span class="string">'/mailboxes'</span>, <span class="function"><span class="keyword">function</span> <span class="params">(req, res)</span> {</span>
-        imapClient.listMailboxes(<span class="function"><span class="keyword">function</span> <span class="params">(error, mailboxes)</span> {</span>
+        req.imap.listMailboxes(<span class="function"><span class="keyword">function</span> <span class="params">(error, mailboxes)</span> {</span>
             <span class="keyword">if</span> (error) {
                 <span class="keyword">return</span> res.json(<span class="number">500</span>, { message: error.message });
             }
@@ -89,7 +93,7 @@
             </div>
             
             <div class="content"><div class='highlight'><pre>    server.get(<span class="string">'/mailboxes/:path'</span>, <span class="function"><span class="keyword">function</span> <span class="params">(req, res)</span> {</span>
-        imapClient.getMailbox(req.params.path, <span class="function"><span class="keyword">function</span> <span class="params">(error, mailbox)</span> {</span>
+        req.imap.getMailbox(req.params.path, <span class="function"><span class="keyword">function</span> <span class="params">(error, mailbox)</span> {</span>
             <span class="keyword">if</span> (error) {
                 <span class="keyword">return</span> res.json(<span class="number">500</span>, { message: error.message });
             }
