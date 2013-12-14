@@ -1,15 +1,12 @@
 var _           = require('underscore'),
-    nodemailer  = require('nodemailer'),
     middlewares = require('../middlewares'),
-    config      = require('../../config'),
 
-    transport = nodemailer.createTransport('SMTP', config.smtp),
     MAXLIMIT = 500,
     DEFAULTLIMIT = 50;
 
 module.exports = function (server) {
 
-    server.all('/messages*', middlewares.imap);
+    server.all('/messages*', middlewares.auth, middlewares.imap, middlewares.smtp);
 
     // Open mailbox if req.query.path is set
     server.all('/messages', function (req, res, next) {
@@ -40,7 +37,7 @@ module.exports = function (server) {
 
     //  Send message
     server.post('/messages', function (req, res) {
-        transport.sendMail(_.pick(req.body, 'from', 'to', 'subject', 'text', 'html'), function (error, response) {
+        req.smtp.sendMail(_.pick(req.body, 'from', 'to', 'subject', 'text', 'html'), function (error, response) {
             if (error) {
                 return res.json(500, { message: error.message });
             }

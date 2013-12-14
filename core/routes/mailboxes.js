@@ -2,7 +2,7 @@ var middlewares = require('../middlewares');
 
 module.exports = function (server) {
 
-    server.all('/mailboxes*', middlewares.imap);
+    server.all('/mailboxes*', middlewares.auth, middlewares.imap);
 
     //  Return a list of all root level mailboxes
     server.get('/mailboxes', function (req, res) {

@@ -9,7 +9,9 @@
     "underscore": "~1.5.2",
     "when": "~2.7.0",
     "inbox": "~1.1.41",
-    "nodemailer": "~0.5.13"
+    "nodemailer": "~0.5.13",
+    "nedb": "~0.9.3",
+    "basic-auth": "~0.0.1"
   },
   "scripts": {
     "start": "node index.js",

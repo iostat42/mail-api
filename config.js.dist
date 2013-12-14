@@ -54,19 +54,23 @@ config = {
         server: {
             port: 8080
         },
-        imap: {
-            auth: {
-                user: "testuser",
-                pass: "testpass"
-            },
-            host: "localhost",
-            port: 1143,
-            secureConnection: false
-        },
-        smtp: {
-            host: "localhost",
-            port: "1587",
-            secureConnection: false
+        auth: {
+            'testingtoken': {
+                imap: {
+                    auth: {
+                        user: "testuser",
+                        pass: "testpass"
+                    },
+                    host: "localhost",
+                    port: 1143,
+                    secureConnection: false
+                },
+                smtp: {
+                    host: "localhost",
+                    port: "1587",
+                    secureConnection: false
+                }
+            }
         }
     }
 };

@@ -1,4 +1,5 @@
 var express     = require('express'),
+    middlewares = require('./middlewares'),
     mailboxes   = require('./routes/mailboxes'),
     messages    = require('./routes/messages'),
 
@@ -14,6 +15,8 @@ module.exports = {
 
         messages(server);
         mailboxes(server);
+
+        server.use(middlewares.error);
 
         httpServer = server.listen.apply(server, args);
     },

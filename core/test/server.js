@@ -11,7 +11,11 @@ var assert          = require('assert'),
     config          = require('../../config'),
 
     url             = 'http://localhost:' + config.server.port,
-    mailparser = new MailParser(),
+    mailparser      = new MailParser(),
+    auth            =  {
+        'user': 'something',
+        'pass': 'testingtoken'
+    },
     imapServer      = hoodiecrow({
         plugins: ["ID", "STARTTLS", "SASL-IR", "AUTH-PLAIN", "NAMESPACE", "IDLE", "ENABLE", "CONDSTORE", "XTOYBIRD", "LITERALPLUS", "UNSELECT", "SPECIAL-USE", "CREATE-SPECIAL-USE"],
         storage: {
@@ -70,8 +74,8 @@ describe('server', function () {
         simplesmtp.createSimpleServer({SMTPBanner: "My Server"}, function (req) {
             req.pipe(mailparser);
             req.accept();
-        }).listen(config.smtp.port);
-        imapServer.listen(config.imap.port, function () {
+        }).listen(config.auth.testingtoken.smtp.port);
+        imapServer.listen(config.auth.testingtoken.imap.port, function () {
             apiServer.listen(config.server.port, function () {
                 done();
             });
@@ -81,7 +85,7 @@ describe('server', function () {
 
 describe('/mailboxes', function () {
     it('should return list of mailboxes', function (done) {
-        request(url + '/mailboxes', function (error, response, body) {
+        request(url + '/mailboxes', { auth: auth }, function (error, response, body) {
             assert.equal(!!error, false);
             assert.equal(200, response.statusCode);
             assert.equal('[{"name":"[Gmail]","path":"[Gmail]","type":"Normal","delimiter":"/","hasChildren":true}]', body);
@@ -89,14 +93,14 @@ describe('/mailboxes', function () {
         });
     });
     it('should return single mailbox', function (done) {
-        request(url + '/mailboxes/[Gmail]', function (error, response, body) {
+        request(url + '/mailboxes/[Gmail]', { auth: auth }, function (error, response, body) {
             assert.equal(!!error, false);
             assert.equal(200, response.statusCode);
             done();
         });
     });
     it('should return 404 for unknown mailbox', function (done) {
-        request(url + '/mailboxes/thisdoesnotexist', function (error, response, body) {
+        request(url + '/mailboxes/thisdoesnotexist', { auth: auth }, function (error, response, body) {
             assert.equal(!!error, false);
             assert.equal(404, response.statusCode);
             assert.equal('{"message":"Mailbox not found"}', body);
@@ -107,7 +111,7 @@ describe('/mailboxes', function () {
 
 describe('/messages', function () {
     it('should fail if no mailbox selected', function (done) {
-        request.get(url + '/messages', function (error, response, body) {
+        request.get(url + '/messages', { auth: auth }, function (error, response, body) {
             assert.equal(!!error, false);
             assert.equal(500, response.statusCode);
             assert.equal('{"message":"No mailbox selected"}', body);
@@ -115,7 +119,7 @@ describe('/messages', function () {
         });
     });
     it('should return list of messages', function (done) {
-        request.get(url + '/messages', { qs: { path: "INBOX" }}, function (error, response, body) {
+        request.get(url + '/messages', { auth: auth, qs: { path: "INBOX" }}, function (error, response, body) {
             assert.equal(!!error, false);
             assert.equal(200, response.statusCode);
             assert.equal('hello 1', JSON.parse(body)[0].title);
@@ -130,7 +134,7 @@ describe('/messages', function () {
             assert.equal(mail_object.text, "Just a test");
             done();
         });
-        request.post(url + '/messages', { form: {
+        request.post(url + '/messages', { auth: auth, form: {
             from: "from@localhost",
             to: "to@localhost",
             subject: "test",
