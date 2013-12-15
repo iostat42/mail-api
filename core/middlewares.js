@@ -45,8 +45,7 @@ module.exports = {
         if ('OPTIONS' === req.method) {
             res.header('Allow', 'HEAD,GET,PUT,POST,DELETE,OPTIONS');
             res.send(200);
-        }
-        else {
+        } else {
             next();
         }
     }

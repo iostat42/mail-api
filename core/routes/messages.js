@@ -9,7 +9,7 @@ module.exports = function (server) {
     server.all('/messages*', middlewares.auth, middlewares.imap, middlewares.smtp);
 
     // Open mailbox if req.query.path is set
-    server.all('/messages', function (req, res, next) {
+    server.all('/messages*', function (req, res, next) {
         if(req.query.path) {
             req.imap.openMailbox(req.query.path, function (error, info) {
                 if(error) {
@@ -33,6 +33,26 @@ module.exports = function (server) {
                 res.json(200, messages);
             }
         );
+    });
+
+    // Retrieve message details
+    server.get('/messages/:uid', function (req, res) {
+        req.imap.fetchData(req.params.uid, function (error, message) {
+            if(error) {
+                return res.json(500, { message: error.message });
+            } else if(message === null) {
+                return res.json(404, { message: "Message not found" });
+            }
+            var messageBody = '',
+                messageStream = req.imap.createMessageStream(req.params.uid);
+            messageStream.on('data', function (str) {
+                messageBody += str;
+            });
+            messageStream.on('end', function () {
+                message.body = messageBody;
+                res.json(message);
+            });
+        });
     });
 
     //  Send message

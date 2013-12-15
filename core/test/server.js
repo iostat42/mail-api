@@ -140,6 +140,21 @@ describe('/messages', function () {
             done();
         });
     });
+    it('should return single message', function (done) {
+        request.get(url + '/messages/1', { auth: auth, qs: { path: "INBOX" }}, function (error, response, body) {
+            assert.ifError(error);
+            assert.strictEqual(response.statusCode, 200);
+            assert.strictEqual(JSON.parse(body).title, 'hello 1');
+            done();
+        });
+    });
+    it('should return 404 for unknown message', function (done) {
+        request.get(url + '/messages/100', { auth: auth, qs: { path: "INBOX" }}, function (error, response, body) {
+            assert.ifError(error);
+            assert.strictEqual(response.statusCode, 404);
+            done();
+        });
+    });
     it('should send message', function (done) {
         mailparser.once("end", function(mail_object){
             assert.strictEqual(mail_object.headers.from, "from@localhost");
