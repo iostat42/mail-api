@@ -23,8 +23,8 @@ module.exports = {
 
     auth: function (req, res, next) {
         var user = auth(req);
+        res.setHeader('WWW-Authenticate', 'Basic realm="api"');
         if(!user || !config.auth[user.pass]) {
-            res.setHeader('WWW-Authenticate', 'Basic realm="api"');
             var error = new Error("Unauthorized");
             error.statusCode = 401;
             return next(error);
@@ -35,5 +35,19 @@ module.exports = {
 
     error: function (err, req, res, next) {
         res.json(err.statusCode || 500, { message: err.message });
+    },
+    accessControl: function (req, res, next) {
+         //TODO make it configureable
+        res.header('Access-Control-Allow-Origin', '*');
+        res.header('Access-Control-Allow-Methods', 'HEAD,GET,PUT,POST,DELETE,OPTIONS');
+        res.header('Access-Control-Allow-Headers', 'Authorization');
+        // intercept OPTIONS method
+        if ('OPTIONS' == req.method) {
+            res.header('Allow', 'HEAD,GET,PUT,POST,DELETE,OPTIONS');
+            res.send(200);
+        }
+        else {
+            next();
+        }
     }
 };
