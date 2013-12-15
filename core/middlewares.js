@@ -42,7 +42,7 @@ module.exports = {
         res.header('Access-Control-Allow-Methods', 'HEAD,GET,PUT,POST,DELETE,OPTIONS');
         res.header('Access-Control-Allow-Headers', 'Authorization');
         // intercept OPTIONS method
-        if ('OPTIONS' == req.method) {
+        if ('OPTIONS' === req.method) {
             res.header('Allow', 'HEAD,GET,PUT,POST,DELETE,OPTIONS');
             res.send(200);
         }
