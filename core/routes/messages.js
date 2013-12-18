@@ -8,18 +8,17 @@ module.exports = function (server) {
 
     server.all('/messages*', middlewares.auth, middlewares.imap, middlewares.smtp);
 
-    // Open mailbox if req.query.path is set
+    // Open mailbox if path is set
     server.all('/messages*', function (req, res, next) {
-        if(req.query.path) {
-            req.imap.openMailbox(req.query.path, function (error, info) {
-                if(error) {
-                    return res.json(500, { message: error.message });
-                }
-                next();
-            });
-        } else {
-            next();
+        if(!(req.query.path || req.body.path)) {
+            return next();
         }
+        req.imap.openMailbox(req.query.path || req.body.path, function (error, info) {
+            if(error) {
+                return res.json(500, { message: error.message });
+            }
+            next();
+        });
     });
 
     //  Retrieve all messages
@@ -61,12 +60,27 @@ module.exports = function (server) {
             if (error) {
                 return res.json(500, { message: error.message });
             }
-            res.json(200, { message: response.message });
+            res.json(201, { message: response.message });
+        });
+    });
+
+    // Store message
+    server.put('/messages', function (req, res) {
+        req.imap.storeMessage(req.body.body, req.body.flags, function (error, params) {
+            if (error) {
+                return res.json(500, { message: error.message });
+            }
+            res.json(201, params);
         });
     });
 
     // Delete message
-    server.delete('/messages', function (req, res) {
-
+    server.del('/messages/:uid', function (req, res) {
+        req.imap.deleteMessage(req.params.uid, function (error) {
+            if (error) {
+                return res.json(500, { message: error.message });
+            }
+            res.json(200, { message: "Message deleted" });
+        });
     });
 };

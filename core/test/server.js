@@ -170,7 +170,25 @@ describe('/messages', function () {
             text: "Just a test"
         }}, function (error, response, body) {
             assert.ifError(error);
+            assert.strictEqual(response.statusCode, 201);
+        });
+    });
+    it('should store message', function (done) {
+        request.put(url + '/messages',  { auth: auth, form: {
+            body: "stuff",
+            path: "INBOX"
+        }}, function (error, response, body) {
+            assert.ifError(error);
+            assert.strictEqual(response.statusCode, 201);
+            done();
+        });
+    });
+    it('should delete message', function (done) {
+        request.del(url + '/messages/' + 7,  { auth: auth, qs: { path: "INBOX" }}, function (error, response, body) {
+            assert.ifError(error);
             assert.strictEqual(response.statusCode, 200);
+            assert.strictEqual(body, '{"message":"Message deleted"}');
+            done();
         });
     });
 });
