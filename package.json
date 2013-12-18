@@ -11,9 +11,8 @@
   "dependencies": {
     "express": "~3.4.7",
     "underscore": "~1.5.2",
-    "when": "~2.7.0",
-    "inbox": "~1.1.41",
-    "nodemailer": "~0.5.13",
+    "inbox": "~1.1.42",
+    "nodemailer": "~0.5.15",
     "basic-auth": "~0.0.1"
   },
   "scripts": {
@@ -22,7 +21,7 @@
   },
   "devDependencies": {
     "hoodiecrow": "~1.1.16",
-    "request": "~2.29.0",
+    "request": "~2.30.0",
     "grunt": "~0.4.2",
     "grunt-contrib-jshint": "~0.7.2",
     "grunt-mocha-cli": "~1.4.0",
