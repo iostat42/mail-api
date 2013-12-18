@@ -1,15 +1,16 @@
 <!DOCTYPE HTML>
 <html>
+
 <head>
-  <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
-  <meta http-equiv="X-UA-Compatible" content="chrome=1" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <meta name="viewport" content="target-densitydpi=device-dpi" />
-  <meta name="HandheldFriendly" content="true"/>
-  <title>mail-api</title>
-  <style>
+    <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="target-densitydpi=device-dpi" />
+    <meta name="HandheldFriendly" content="true" />
+    <title>mail-api</title>
+    <style>
     body {
-      font-size: 14px;
+     font-size: 14px;
       line-height: 22px;
       color: #000;
       font-family: Helvetica Neue, Helvetica, Arial;
@@ -171,58 +172,61 @@
         overflow: scroll;
       }
     }
-  </style>
+    </style>
 </head>
+
 <body>
 
-  <div id="sidebar" class="interface">
+    <div id="sidebar" class="interface">
 
-    <a class="toc_title" href="#">
+        <a class="toc_title" href="#">
       mail-api <span class="version">(0.1.0)</span>
     </a>
-    <ul class="toc_section">
-      <li>&raquo; <a href="https://github.com/jgillich/mail-api">GitHub Repository</a></li>
-    </ul>
+        <ul class="toc_section">
+            <li>&raquo; <a href="https://github.com/jgillich/mail-api">GitHub Repository</a>
+            </li>
+        </ul>
 
-    <a class="toc_title" href="#mailboxes">
+        <a class="toc_title" href="#mailboxes">
       Mailboxes
     </a>
-    <ul class="toc_section">
-      <li>&raquo; <a href="docs/mailboxes.html">Annotated Source</a></li>
-    </ul>
+        <ul class="toc_section">
+            <li>&raquo; <a href="docs/mailboxes.html">Annotated Source</a>
+            </li>
+        </ul>
 
-    <a class="toc_title" href="#messages">
+        <a class="toc_title" href="#messages">
       Messages
     </a>
-    <ul class="toc_section">
-      <li>&raquo; <a href="docs/messages.html">Annotated Source</a></li>
-    </ul>
+        <ul class="toc_section">
+            <li>&raquo; <a href="docs/messages.html">Annotated Source</a>
+            </li>
+        </ul>
 
-    <a class="toc_title" href="#conventions">
+        <a class="toc_title" href="#conventions">
       Conventions
     </a>
 
-  </div>
+    </div>
 
-  <div class="container">
+    <div class="container">
 
-    <p id="introduction">
-      <h1>mail-api</h1>
-    </p>
+        <p id="introduction">
+            <h1>mail-api</h1>
+        </p>
 
-    <p>
-      A work in progress REST API for IMAP and SMTP.
-    </p>
+        <p>
+            A work in progress REST API for IMAP and SMTP.
+        </p>
 
-    <div id="documentation">
+        <div id="documentation">
 
-      <h2 id="mailboxes">Mailboxes</h2>
+            <h2 id="mailboxes">Mailboxes</h2>
 
-      <p id="mailboxes-getall">
-        <b class="header">GET</b><code>/mailboxes</code>
-        <br />
-        Return a list of all root level mailboxes
-      </p>
+            <p id="mailboxes-getall">
+                <b class="header">GET</b><code>/mailboxes</code>
+                <br />Return a list of all root level mailboxes
+            </p>
 <pre>
 request.get('/mailboxes');
 =>  [{
@@ -234,19 +238,17 @@ request.get('/mailboxes');
     }]
 </pre>
 
-      <p id="mailboxes-getsingle">
-        <b class="header">GET</b><code>/mailboxes/:path</code>
-        <br />
-        Return single mailbox and all children
-      </p>
+            <p id="mailboxes-getsingle">
+                <b class="header">GET</b><code>/mailboxes/:path</code>
+                <br />Return single mailbox and all children
+            </p>
 
-      <h2 id="messages">Messages</h2>
+            <h2 id="messages">Messages</h2>
 
-      <p id="messages-getalll">
-        <b class="header">GET</b><code>/messages</code>
-        <br />
-          Retrieve a list of messages. The <tt>path</tt> query must be set to a mailbox.
-      </p>
+            <p id="messages-getalll">
+                <b class="header">GET</b><code>/messages</code>
+                <br />Retrieve a list of messages. A mailbox must be passed as <tt>path</tt>.
+            </p>
 <pre>
 request.get('/mailboxes', { qs: { path: "INBOX" }});
 =>  [{
@@ -262,11 +264,10 @@ request.get('/mailboxes', { qs: { path: "INBOX" }});
     }]
 </pre>
 
-      <p id="mailboxes-putsingle">
-        <b class="header">PUT</b><code>/mailboxes</code>
-        <br />
-        Send message
-      </p>
+            <p id="mailboxes-post">
+                <b class="header">POST</b><code>/mailboxes</code>
+                <br />Send message
+            </p>
 <pre>
 request.post('/messages', { form: {
     from: "from@localhost",
@@ -276,34 +277,46 @@ request.post('/messages', { form: {
 }};
 =>  { "message": "250 2.0.0 Ok: queued as a7aa7c5d48c14c93e8c9" }
 </pre>
-      <p id="mailboxes-deletesingle">
-        <b class="header">DELETE</b><code>/mailboxes/:id</code>
-        <br />
-        Delete message
-      </p>
-
-    </div>
-
-    <h2 id="conventions">Conventions</h2>
-      <p>
-        <b>All</b> requests must authenticate using a token as password. Usernames are ignored. For now, tokens are configured in <tt>config.js</tt>.
-      </p>
-      <p>
-        <b>All</b> responses contain a valid JSON document and are converted by <a href="http://expressjs.com/api.html#res.json">res.json</a>.
-          The content type is <i>application/json</i>.
-      </p>
-      <p>
-        <b>All</b> successful resonses contain a <i>2xx</i> status code.
-        Status codes in the range of <i>4xx</i> and <i>5xx</i> mean an error
-        occured and a description of the error is returned:
-      </p>
+            <p id="mailboxes-put">
+                <b class="header">PUT</b><code>/mailboxes</code>
+                <br />Store message. A mailbox must be passed as <tt>path</tt>.
+            </p>
 <pre>
+request.put('/messages', { form: {
+    body: "body",
+    path: "INBOX"
+}});
+</pre>
+
+            <p id="mailboxes-delete">
+                <b class="header">DELETE</b><code>/mailboxes/:id</code>
+                <br />Delete message. A mailbox must be passed as <tt>path</tt>.
+            </p>
+<pre>
+request.del('/messages/7',  { qs: { path: "INBOX" }});
+=> { "message": "Message deleted" }
+</pre>
+
+        </div>
+
+        <h2 id="conventions">Conventions</h2>
+        <p>
+            <b>All</b> requests must authenticate using a token as password. Usernames are ignored. For now, tokens are configured in <tt>config.js</tt>.
+        </p>
+        <p>
+            <b>All</b> responses contain a valid JSON document and are converted by <a href="http://expressjs.com/api.html#res.json">res.json</a>. The content type is <i>application/json</i>.
+        </p>
+        <p>
+            <b>All</b> successful resonses contain a <i>2xx</i> status code. Status codes in the range of <i>4xx</i> and <i>5xx</i> mean an error occured and a description of the error is returned:
+        </p>
+        <pre>
 { "message": "Mailbox not found" }
 </pre>
 
 
 
-  </div>
+    </div>
 
 </body>
+
 </html>
