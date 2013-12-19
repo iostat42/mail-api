@@ -1,32 +1,34 @@
 {
-  "name": "mail-api",
-  "version": "0.1.0",
-  "author": "Jakob Gillich <jakob@gillich.me>",
-  "description": "RESTful mail api",
-  "homepage": "https://github.com/jgillich/mail-api",
-  "repository" : {
-      "type" : "git",
-      "url" : "https://github.com/jgillich/mail-api.git"
-  },
-  "dependencies": {
-    "express": "3.4.7",
-    "underscore": "1.5.2",
-    "inbox": "1.1.42",
-    "nodemailer": "0.5.15",
-    "basic-auth": "0.0.1"
-  },
-  "scripts": {
-    "start": "node index.js",
-    "test": "grunt validate"
-  },
-  "devDependencies": {
-    "hoodiecrow": "~1.1.18",
-    "request": "~2.30.0",
-    "grunt": "~0.4.2",
-    "grunt-contrib-jshint": "~0.7.2",
-    "grunt-mocha-cli": "~1.4.0",
-    "simplesmtp": "~0.3.16",
-    "mailparser": "~0.3.6",
-    "grunt-docco": "~0.3.0"
-  }
+    "name": "mail-api",
+    "version": "0.1.0",
+    "author": "Jakob Gillich <jakob@gillich.me>",
+    "description": "RESTful mail api",
+    "homepage": "https://github.com/jgillich/mail-api",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/jgillich/mail-api.git"
+    },
+    "dependencies": {
+        "express": "3.4.7",
+        "underscore": "1.5.2",
+        "inbox": "1.1.42",
+        "nodemailer": "0.5.15",
+        "basic-auth": "0.0.1",
+        "socket.io": "0.9.16"
+    },
+    "scripts": {
+        "start": "node index.js",
+        "test": "grunt validate"
+    },
+    "devDependencies": {
+        "hoodiecrow": "~1.1.18",
+        "request": "~2.30.0",
+        "grunt": "~0.4.2",
+        "grunt-contrib-jshint": "~0.7.2",
+        "grunt-mocha-cli": "~1.4.0",
+        "simplesmtp": "~0.3.16",
+        "mailparser": "~0.3.6",
+        "grunt-docco": "~0.3.0",
+        "socket.io-client": "~0.9.16"
+    }
 }

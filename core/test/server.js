@@ -6,6 +6,7 @@ var assert          = require('assert'),
     hoodiecrow      = require("hoodiecrow"),
     simplesmtp      = require('simplesmtp'),
     request         = require('request'),
+    io              = require('socket.io-client'),
     MailParser      = require("mailparser").MailParser,
     apiServer       = require('../server'),
     config          = require('../../config'),
@@ -190,6 +191,29 @@ describe('/messages', function () {
             assert.strictEqual(body, '{"message":"Message deleted"}');
             done();
         });
+    });
+    it('should subscribe to new messages', function (done) {
+        var socket = io.connect('http://localhost/', { log: false, port: config.server.port });
+        socket.on('connect', function () {
+            socket.emit('auth', { key:  'testingtoken' });
+            socket.on('authenticated', function () {
+                socket.emit('subscribe new message');
+                socket.on('subscribed', function () {
+                    request.put(url + '/messages',  { auth: auth, form: {
+                        body: "Subject: hello 11\r\n\r\nWorld 11!",
+                        path: "INBOX"
+                    }}, function (error, res, body) {
+                        assert.ifError(error);
+                    });
+                });
+            });
+
+            socket.on('new message', function (message) {
+                assert.strictEqual(message.title, "hello 11");
+                done();
+            });
+        });
+
     });
 });
 

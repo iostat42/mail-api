@@ -4,6 +4,7 @@ var express     = require('express'),
     middlewares = require('./middlewares'),
     mailboxes   = require('./routes/mailboxes'),
     messages    = require('./routes/messages'),
+    sockets    = require('./routes/sockets'),
 
     server      = express(),
     httpServer;
@@ -28,6 +29,8 @@ module.exports = {
         server.use(middlewares.error);
 
         httpServer = server.listen.apply(server, arguments);
+
+        sockets(server, httpServer);
     },
     close: function () {
         httpServer.close();
