@@ -8,8 +8,6 @@ var express     = require('express'),
 
 module.exports = {
     listen: function () {
-        var args = arguments;
-
         server.use(middlewares.accessControl);
 
         server.use(express.compress());
@@ -20,7 +18,7 @@ module.exports = {
 
         server.use(middlewares.error);
 
-        httpServer = server.listen.apply(server, args);
+        httpServer = server.listen.apply(server, arguments);
     },
     close: function () {
         httpServer.close();
