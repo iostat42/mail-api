@@ -1,8 +1,7 @@
 var inbox       = require('inbox'),
     nodemailer  = require('nodemailer'),
-    auth        = require('basic-auth'),
-    config      = require('../config');
-
+    auth        = require('basic-auth');
+    
 module.exports = {
     imap: function (req, res, next) {
         req.imap = inbox.createConnection(req.rauth.imap.port, req.rauth.imap.host, req.rauth.imap);
@@ -24,12 +23,12 @@ module.exports = {
     auth: function (req, res, next) {
         var user = auth(req);
         res.setHeader('WWW-Authenticate', 'Basic realm="api"');
-        if(!user || !config.auth[user.pass]) {
+        if(!user || !req.app.get('auth')[user.pass]) {
             var error = new Error("Unauthorized");
             error.statusCode = 401;
             return next(error);
         }
-        req.rauth = config.auth[user.pass];
+        req.rauth = req.app.get('auth')[user.pass];
         next();
     },
 
