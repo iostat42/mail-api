@@ -1,0 +1,4 @@
+name: mail-api
+markdown: redcarpet
+pygments: true
+github: https://github.com/jgillich/mail-api
