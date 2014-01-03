@@ -12,4 +12,3 @@ cp config.js.dist config.js
 npm install
 npm start
 ```
-
