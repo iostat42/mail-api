@@ -96,7 +96,7 @@ describe('/mailboxes', function () {
         request(url + '/mailboxes', { auth: auth }, function (error, response, body) {
             assert.ifError(error);
             assert.strictEqual(response.statusCode, 200);
-            assert.strictEqual(body, '[{"name":"[Gmail]","path":"[Gmail]","type":"Normal","delimiter":"/","hasChildren":true}]');
+            assert.strictEqual(body, '[{"name":"INBOX","path":"INBOX","type":"Inbox","delimiter":"/"},{"name":"[Gmail]","path":"[Gmail]","type":"Normal","delimiter":"/","hasChildren":true}]');
             done();
         });
     });
