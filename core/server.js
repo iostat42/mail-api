@@ -34,5 +34,11 @@ module.exports = {
     },
     close: function () {
         httpServer.close();
+    },
+    set: function () {
+        return server.set.apply(server, arguments);
+    },
+    get: function () {
+        return server.get.apply(server, arguments);
     }
 };
