@@ -1,7 +1,7 @@
 var server      = require('./core/server');
 
 console.log("Starting server...");
-server.listen(server.get('port'), function () {
+server.listen(server.get('server').port, function () {
     console.log("Server started!");
 });
 

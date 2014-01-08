@@ -16,29 +16,49 @@ module.exports = function (grunt) {
             },
             all: ['core/test/*.js']
         },
-        docco: {
-            all: {
-                src: ['core/routes/*.js'],
+        express: {
+            dev: {
                 options: {
-                    output: 'docs/'
+                    script: './index.js',
+                    output: 'Server started!'
                 }
             }
+        },
+        watch: {
+            dev: {
+                files: ['**/*.js'],
+                tasks: ['express:dev'],
+                options: {
+                    spawn: false
+                },
+            },
         }
     });
 
     grunt.loadNpmTasks('grunt-contrib-jshint');
+    grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-mocha-cli');
-    grunt.loadNpmTasks('grunt-docco');
+    grunt.loadNpmTasks('grunt-express-server');
+
+    grunt.registerTask('hoodiecrow', function () {
+        var data = require('./core/test/data'),
+            config = require('./config'),
+            hoodiecrow = require('hoodiecrow')(data.hoodiecrow),
+            done = this.async();
+
+        hoodiecrow.listen(config.auth.testingtoken.imap.port, function () {
+            done();
+        });
+    });
+
+    grunt.registerTask('dev', [
+        'express:dev',
+        'watch:dev'
+    ]);
 
     grunt.registerTask('validate', [
         'jshint',
         'mochacli'
     ]);
-
-    grunt.registerTask('docs', [
-        'docco'
-    ]);
-
-    grunt.registerTask('default', []);
 
 };

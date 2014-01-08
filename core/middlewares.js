@@ -1,7 +1,7 @@
 var inbox       = require('inbox'),
     nodemailer  = require('nodemailer'),
     auth        = require('basic-auth');
-    
+
 module.exports = {
     imap: function (req, res, next) {
         req.imap = inbox.createConnection(req.rauth.imap.port, req.rauth.imap.host, req.rauth.imap);
